@@ -8,6 +8,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\XSlipMvc.Client.Application\XSlipMvc.Client.Application.csproj" />
+    <ProjectReference Include="..\XSlipMvc.Client.Infrastructure\XSlipMvc.Client.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+    <Folder Include="Models\" />
+    <Folder Include="Views\" />
   </ItemGroup>
 
 </Project>
