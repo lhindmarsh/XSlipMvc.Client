@@ -6,11 +6,15 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Context
 {
     public class XSlipContext : DbContext
     {
-        //Server Name=(localdb)\MSSQLLocalDB
-        //ConnectionString=Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=development-XSlip;Integrated Security=True;Trust Server Certificate=True
-
         public XSlipContext(DbContextOptions<XSlipContext> options) : base(options)
         { }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Expense>()
+                .Property(e => e.Amount)
+                .HasColumnType("decimal(18,2)");
+        }
 
         DbSet<Expense> Expenses { get; set; }
     }
