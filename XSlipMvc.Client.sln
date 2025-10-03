@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XSlipMvc.Client.Web", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XSlipMvc.Client.Application", "src\XSlipMvc.Client.Application\XSlipMvc.Client.Application.csproj", "{4EE8DDC4-BCB6-89BB-419B-ADC04FE14105}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XSlipMvc.Client.Infrastructure", "src\XSlipMvc.Client.Infrastructure\XSlipMvc.Client.Infrastructure.csproj", "{F31B1421-7298-42B3-C988-B2D2191E6948}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XSlipMvc.Client.Domain", "src\XSlipMvc.Client.Domain\XSlipMvc.Client.Domain.csproj", "{643499C0-226C-27B6-F6B7-D2446D50F873}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{4EE8DDC4-BCB6-89BB-419B-ADC04FE14105}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4EE8DDC4-BCB6-89BB-419B-ADC04FE14105}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4EE8DDC4-BCB6-89BB-419B-ADC04FE14105}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F31B1421-7298-42B3-C988-B2D2191E6948}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F31B1421-7298-42B3-C988-B2D2191E6948}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F31B1421-7298-42B3-C988-B2D2191E6948}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F31B1421-7298-42B3-C988-B2D2191E6948}.Release|Any CPU.Build.0 = Release|Any CPU
+		{643499C0-226C-27B6-F6B7-D2446D50F873}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{643499C0-226C-27B6-F6B7-D2446D50F873}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{643499C0-226C-27B6-F6B7-D2446D50F873}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{643499C0-226C-27B6-F6B7-D2446D50F873}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
