@@ -15,7 +15,9 @@ namespace XSlipMvc.Client.Web.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var expenses = _context.Expenses.ToList();
+
+            return View(expenses);
         }
     }
 }

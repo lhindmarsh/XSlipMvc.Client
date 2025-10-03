@@ -16,6 +16,6 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Context
                 .HasColumnType("decimal(18,2)");
         }
 
-        DbSet<Expense> Expenses { get; set; }
+        public DbSet<Expense> Expenses { get; set; }
     }
 }
