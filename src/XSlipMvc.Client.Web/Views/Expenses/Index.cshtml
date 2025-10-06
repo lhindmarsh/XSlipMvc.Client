@@ -1,4 +1,6 @@
-﻿@model IEnumerable<XSlipMvc.Client.Domain.Entities.Expense>
+﻿@using XSlipMvc.Client.Web.ViewModels.Expense
+
+@model IEnumerable<ExpenseViewModel>
 
 <h2>Expenses</h2>
 
@@ -14,6 +16,15 @@
         </thead>
 
         <tbody>
+            @foreach (var expense in Model)
+            {
+                <tr>
+                    <td>@expense.Description</td>
+                    <td>@expense.Amount</td>
+                    <td>@expense.Category</td>
+                    <td>@expense.Date.ToShortDateString()</td>
+                </tr>
+            }
         </tbody>
 
     </table>

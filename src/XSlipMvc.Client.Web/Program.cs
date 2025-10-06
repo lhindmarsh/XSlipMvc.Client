@@ -2,7 +2,7 @@ using XSlipMvc.Client.Infrastructure.Persistence.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container
+//Add services to the container
 builder.Services.AddControllersWithViews();
 
 //Inject DbContext with SQLServer connectionstring
@@ -19,10 +19,10 @@ app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
         name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}");
+        pattern: "{controller=Expenses}/{action=Index}/{id?}");
 });
 #pragma warning restore ASP0014 // Suggest using top level route registrations
 
-app.MapGet("/", () => "Hello World!");
+//app.MapGet("/", () => "Hello World!");
 
 app.Run();

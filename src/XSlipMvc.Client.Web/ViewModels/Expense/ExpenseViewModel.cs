@@ -10,7 +10,7 @@ namespace XSlipMvc.Client.Web.ViewModels.Expense
         public decimal Amount { get; set; }
 
         [StringLength(100, MinimumLength = 3)]
-        public string CategoryName { get; set; }
+        public string Category { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
         public DateTime Date { get; set; }
