@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using XSlipMvc.Client.Infrastructure.Persistence.Context;
 
@@ -11,9 +12,11 @@ using XSlipMvc.Client.Infrastructure.Persistence.Context;
 namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(XSlipContext))]
-    partial class XSlipContextModelSnapshot : ModelSnapshot
+    [Migration("20251006083311_Expense Category column type")]
+    partial class ExpenseCategorycolumntype
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

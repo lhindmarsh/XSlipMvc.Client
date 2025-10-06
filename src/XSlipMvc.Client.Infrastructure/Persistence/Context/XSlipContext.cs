@@ -18,6 +18,10 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Context
             modelBuilder.Entity<Expense>()
                 .Property(e => e.Description)
                 .HasColumnType("nvarchar(255)");
+
+            modelBuilder.Entity<Expense>()
+                .Property(e => e.Category)
+                .HasColumnType("nvarchar(100)");
         }
 
         public DbSet<Expense> Expenses { get; set; }
