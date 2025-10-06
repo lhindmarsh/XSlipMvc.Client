@@ -18,9 +18,10 @@ namespace XSlipMvc.Client.Domain.Entities
         public decimal Amount { get; set; }
 
         [Required]
-        [JsonPropertyName("date")]
+        [JsonPropertyName("category")]
         public string Category { get; set; } = null!;
 
+        [JsonPropertyName("date")]
         public DateTime Date { get; set; } = DateTime.Now;
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using XSlipMvc.Client.Infrastructure.Persistence.Context;
 
@@ -11,9 +12,11 @@ using XSlipMvc.Client.Infrastructure.Persistence.Context;
 namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(XSlipContext))]
-    partial class XSlipContextModelSnapshot : ModelSnapshot
+    [Migration("20251005112222_Expense String length update")]
+    partial class ExpenseStringlengthupdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,12 +40,11 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations
 
                     b.Property<string>("Category")
                         .IsRequired()
-                        .HasColumnType("nvarchar(100)")
-                        .HasAnnotation("Relational:JsonPropertyName", "category");
+                        .HasColumnType("nvarchar(max)")
+                        .HasAnnotation("Relational:JsonPropertyName", "date");
 
                     b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2")
-                        .HasAnnotation("Relational:JsonPropertyName", "date");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired()
