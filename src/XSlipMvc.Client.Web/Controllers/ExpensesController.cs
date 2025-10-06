@@ -27,5 +27,10 @@ namespace XSlipMvc.Client.Web.Controllers
 
             return View(expenses);
         }
+
+        public IActionResult Create()
+        {
+            return View(new ExpenseViewModel());
+        }
     }
 }
