@@ -28,9 +28,32 @@ namespace XSlipMvc.Client.Web.Controllers
             return View(expenses);
         }
 
-        public IActionResult Create()
+        [HttpGet]
+        public IActionResult Add()
         {
             return View(new ExpenseViewModel());
+        }
+
+        [HttpPost]
+        public IActionResult Add(ExpenseViewModel model)
+        {
+            if (ModelState.IsValid && model != null)
+            {
+                var expense = new Domain.Entities.Expense
+                {
+                    Description = model.Description,
+                    Amount = model.Amount,
+                    Category = model.Category,
+                    Date = model.Date
+                };
+
+                _context.Expenses.Add(expense);
+                _context.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+
+            return View(model);
         }
     }
 }
