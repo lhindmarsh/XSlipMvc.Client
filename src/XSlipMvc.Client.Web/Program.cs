@@ -12,6 +12,8 @@ var app = builder.Build();
 
 app.UseHttpsRedirection();
 
+app.UseStaticFiles();
+
 app.UseRouting();
 
 #pragma warning disable ASP0014 // Suggest using top level route registrations
