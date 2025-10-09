@@ -1,22 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-using XSlipMvc.Client.Infrastructure.Persistence.Context;
+using XSlipMvc.Client.Application.Interfaces;
 using XSlipMvc.Client.Web.ViewModels.Expense;
 
 namespace XSlipMvc.Client.Web.Controllers
 {
     public class ExpensesController : Controller
     {
-        private readonly XSlipContext _context;
+        private readonly IExpenseRepository _repository;
 
-        public ExpensesController(XSlipContext context)
+        public ExpensesController(IExpenseRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         public IActionResult Index()
         {
-            var expenses = _context.Expenses
+            var expenses = _repository.GetAll()
                 .Select(e => new ExpenseViewModel
                 {
                     Description = e.Description,
@@ -47,8 +47,8 @@ namespace XSlipMvc.Client.Web.Controllers
                     Date = model.Date
                 };
 
-                _context.Expenses.Add(expense);
-                _context.SaveChanges();
+                _repository.Add(expense);
+                _repository.Save();
 
                 return RedirectToAction("Index");
             }

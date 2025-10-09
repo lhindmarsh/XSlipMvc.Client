@@ -5,15 +5,13 @@ var builder = WebApplication.CreateBuilder(args);
 //Add services to the container
 builder.Services.AddControllersWithViews();
 
-//Inject DbContext with SQLServer connectionstring
+//Inject DbContext from Infrastructure project, with SQLServer connectionstring, and any services needed for the app
 builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 
 app.UseHttpsRedirection();
-
 app.UseStaticFiles();
-
 app.UseRouting();
 
 #pragma warning disable ASP0014 // Suggest using top level route registrations
