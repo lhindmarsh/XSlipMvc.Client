@@ -1,4 +1,6 @@
-﻿using XSlipMvc.Client.Application.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+
+using XSlipMvc.Client.Application.Interfaces;
 using XSlipMvc.Client.Domain.Entities;
 using XSlipMvc.Client.Infrastructure.Persistence.Context;
 
@@ -13,19 +15,19 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Repositories
             _context = context;
         }
 
-        public void Add(Expense expense)
+        public async Task AddAsync(Expense expense)
         {
-            _context.Expenses.Add(expense);
+            await _context.Expenses.AddAsync(expense);
         }
 
-        public IEnumerable<Expense> GetAll()
+        public async Task<IEnumerable<Expense>> GetAllAsync()
         {
-            return _context.Expenses.ToList();
+            return await _context.Expenses.ToListAsync();
         }
 
-        public void Save()
+        public async Task SaveAsync()
         {
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

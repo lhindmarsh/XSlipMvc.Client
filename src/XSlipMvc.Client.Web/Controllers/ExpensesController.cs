@@ -1,22 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-using XSlipMvc.Client.Application.Interfaces;
+using XSlipMvc.Client.Application.Services;
 using XSlipMvc.Client.Web.ViewModels.Expense;
 
 namespace XSlipMvc.Client.Web.Controllers
 {
     public class ExpensesController : Controller
     {
-        private readonly IExpenseRepository _repository;
+        private readonly IExpenseService _service;
 
-        public ExpensesController(IExpenseRepository repository)
+        public ExpensesController(IExpenseService service)
         {
-            _repository = repository;
+            _service = service;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var expenses = _repository.GetAll()
+            var expenses = await _service.GetAllAsync();
+
+            var viewModel = expenses
                 .Select(e => new ExpenseViewModel
                 {
                     Description = e.Description,
@@ -25,7 +27,7 @@ namespace XSlipMvc.Client.Web.Controllers
                     Date = e.Date
                 }).ToList();
 
-            return View(expenses);
+            return View(viewModel);
         }
 
         [HttpGet]
@@ -35,7 +37,7 @@ namespace XSlipMvc.Client.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(ExpenseViewModel model)
+        public async Task<IActionResult> AddAsync(ExpenseViewModel model)
         {
             if (ModelState.IsValid && model != null)
             {
@@ -47,8 +49,7 @@ namespace XSlipMvc.Client.Web.Controllers
                     Date = model.Date
                 };
 
-                _repository.Add(expense);
-                _repository.Save();
+                await _service.AddAsync(expense);
 
                 return RedirectToAction("Index");
             }

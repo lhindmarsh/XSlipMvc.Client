@@ -6,10 +6,10 @@ namespace XSlipMvc.Client.Application.Interfaces
     {
         //ASYNC**********
 
-        IEnumerable<Expense> GetAll();
+        Task<IEnumerable<Expense>> GetAllAsync();
 
-        void Add(Expense expense);
+        Task AddAsync(Expense expense);
 
-        void Save();
+        Task SaveAsync();
     }
 }
