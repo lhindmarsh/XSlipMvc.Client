@@ -1,4 +1,5 @@
-﻿using XSlipMvc.Client.Application.Interfaces;
+﻿using XSlipMvc.Client.Application.Common;
+using XSlipMvc.Client.Application.Interfaces;
 using XSlipMvc.Client.Application.Services;
 using XSlipMvc.Client.Domain.Entities;
 
@@ -6,23 +7,44 @@ namespace XSlipMvc.Client.Infrastructure.Services
 {
     public class ExpenseService : IExpenseService
     {
-        private readonly IExpenseRepository _repository;
+        private readonly IGenericRepository<Expense> _repo;
 
-        public ExpenseService(IExpenseRepository repository)
+        public ExpenseService(IGenericRepository<Expense> repo)
         {
-            _repository = repository;
+            _repo = repo;
         }
 
         public async Task<IEnumerable<Expense>> GetAllAsync()
         {
-            return await _repository.GetAllAsync();
+            return await _repo.GetAllAsync();
         }
 
-        public async Task AddAsync(Expense expense)
+        public async Task<ServiceResult> AddAsync(Expense expense)
         {
-            await _repository.AddAsync(expense);
+            var result = new ServiceResult();
 
-            await _repository.SaveAsync();
+            if (expense == null)
+            {
+                result.AddError("Expense description is invalid.");
+            }
+
+            if (!result.Success)
+            {
+                return result;
+            }
+
+            await _repo.AddAsync(expense);
+
+            await _repo.SaveAsync();
+
+            return ServiceResult.Ok();
+        }
+
+        public ServiceResult Delete(Expense expense)
+        {
+
+
+            return ServiceResult.Ok();
         }
     }
 }

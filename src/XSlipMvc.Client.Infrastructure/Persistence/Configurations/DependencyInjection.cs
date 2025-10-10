@@ -20,8 +20,16 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Configurations
                 .EnableSensitiveDataLogging()
                 .LogTo(Console.WriteLine, LogLevel.Information));
 
+            services = AddServicesAndRepos(services);
+
+            return services;
+        }
+
+        private static IServiceCollection AddServicesAndRepos(IServiceCollection services)
+        {
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
             services.AddScoped<IExpenseService, ExpenseService>();
-            services.AddScoped<IExpenseRepository, ExpenseRepository>();
 
             return services;
         }

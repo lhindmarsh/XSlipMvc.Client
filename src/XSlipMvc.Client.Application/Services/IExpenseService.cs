@@ -1,4 +1,5 @@
-﻿using XSlipMvc.Client.Domain.Entities;
+﻿using XSlipMvc.Client.Application.Common;
+using XSlipMvc.Client.Domain.Entities;
 
 namespace XSlipMvc.Client.Application.Services
 {
@@ -6,6 +7,8 @@ namespace XSlipMvc.Client.Application.Services
     {
         Task<IEnumerable<Expense>> GetAllAsync();
 
-        Task AddAsync(Expense expense);
+        Task<ServiceResult> AddAsync(Expense expense);
+
+        ServiceResult Delete(Expense expense);
     }
 }

@@ -39,22 +39,34 @@ namespace XSlipMvc.Client.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> AddAsync(ExpenseViewModel model)
         {
-            if (ModelState.IsValid && model != null)
+            if (!ModelState.IsValid || model == null)
             {
-                var expense = new Domain.Entities.Expense
-                {
-                    Description = model.Description,
-                    Amount = model.Amount,
-                    Category = model.Category,
-                    Date = model.Date
-                };
-
-                await _service.AddAsync(expense);
-
-                return RedirectToAction("Index");
+                return View(model);
             }
 
-            return View(model);
+            var expense = new Domain.Entities.Expense
+            {
+                Description = model.Description,
+                Amount = model.Amount,
+                Category = model.Category,
+                Date = model.Date
+            };
+
+            var result = await _service.AddAsync(expense);
+
+            if (!result.Success)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error);
+
+                    return View(model);
+                }
+            }
+
+            TempData["Success"] = "Expense added successfully";
+
+            return RedirectToAction("Index");
         }
     }
 }
