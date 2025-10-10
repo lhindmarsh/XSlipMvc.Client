@@ -9,6 +9,8 @@ namespace XSlipMvc.Client.Application.Services
 
         Task<ServiceResult> AddAsync(Expense expense);
 
-        ServiceResult Delete(Expense expense);
+        Task<ServiceResult> Delete(Expense expense);
+
+        //Task<ServiceResult> GetByIdAsync(int id);
     }
 }

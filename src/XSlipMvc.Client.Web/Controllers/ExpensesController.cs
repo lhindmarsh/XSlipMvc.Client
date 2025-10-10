@@ -68,5 +68,27 @@ namespace XSlipMvc.Client.Web.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteExpense(ExpenseViewModel model)
+        {
+            var expense = new Domain.Entities.Expense
+            {
+                Id = model.Id
+            };
+
+            expense.Id = 2010;
+
+            var result = await _service.Delete(expense);
+
+            if (!result.Success)
+            {
+                return RedirectToAction("Index");
+            }
+
+            TempData["Success"] = "Expense removed successfully";
+
+            return RedirectToAction("Index");
+        }
     }
 }
