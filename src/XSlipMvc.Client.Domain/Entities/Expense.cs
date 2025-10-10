@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace XSlipMvc.Client.Domain.Entities
 {
@@ -8,16 +7,13 @@ namespace XSlipMvc.Client.Domain.Entities
         [JsonPropertyName("id")]
         public int Id { get; set; }
 
-        [Required]
         [JsonPropertyName("description")]
         public string Description { get; set; } = null!;
 
-        [Required]
-        [Range(typeof(decimal), "1.00", "5000", ErrorMessage = "Amount minimum is 1.00")]
+        //[Range(typeof(decimal), "1.00", "5000", ErrorMessage = "Amount minimum is 1.00")]
         [JsonPropertyName("amount")]
         public decimal Amount { get; set; }
 
-        [Required]
         [JsonPropertyName("category")]
         public string Category { get; set; } = null!;
 

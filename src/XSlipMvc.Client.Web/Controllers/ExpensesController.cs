@@ -1,22 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-using XSlipMvc.Client.Infrastructure.Persistence.Context;
+using XSlipMvc.Client.Application.Services;
 using XSlipMvc.Client.Web.ViewModels.Expense;
 
 namespace XSlipMvc.Client.Web.Controllers
 {
     public class ExpensesController : Controller
     {
-        private readonly XSlipContext _context;
+        private readonly IExpenseService _service;
 
-        public ExpensesController(XSlipContext context)
+        public ExpensesController(IExpenseService service)
         {
-            _context = context;
+            _service = service;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var expenses = _context.Expenses
+            var expenses = await _service.GetAllAsync();
+
+            var viewModel = expenses
                 .Select(e => new ExpenseViewModel
                 {
                     Description = e.Description,
@@ -25,12 +27,46 @@ namespace XSlipMvc.Client.Web.Controllers
                     Date = e.Date
                 }).ToList();
 
-            return View(expenses);
+            return View(viewModel);
         }
 
-        public IActionResult Create()
+        [HttpGet]
+        public IActionResult Add()
         {
             return View(new ExpenseViewModel());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddAsync(ExpenseViewModel model)
+        {
+            if (!ModelState.IsValid || model == null)
+            {
+                return View(model);
+            }
+
+            var expense = new Domain.Entities.Expense
+            {
+                Description = model.Description,
+                Amount = model.Amount,
+                Category = model.Category,
+                Date = model.Date
+            };
+
+            var result = await _service.AddAsync(expense);
+
+            if (!result.Success)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error);
+
+                    return View(model);
+                }
+            }
+
+            TempData["Success"] = "Expense added successfully";
+
+            return RedirectToAction("Index");
         }
     }
 }

@@ -12,12 +12,12 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Expense>()
-                .Property(e => e.Amount)
-                .HasColumnType("decimal(18,2)");
-
-            modelBuilder.Entity<Expense>()
                 .Property(e => e.Description)
                 .HasColumnType("nvarchar(255)");
+
+            modelBuilder.Entity<Expense>()
+                .Property(e => e.Amount)
+                .HasColumnType("decimal(18,2)");
 
             modelBuilder.Entity<Expense>()
                 .Property(e => e.Category)

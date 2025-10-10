@@ -12,8 +12,8 @@ using XSlipMvc.Client.Infrastructure.Persistence.Context;
 namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(XSlipContext))]
-    [Migration("20251003153036_Expense Config Revert")]
-    partial class ExpenseConfigRevert
+    [Migration("20251008122150_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,15 +40,16 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations
 
                     b.Property<string>("Category")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasAnnotation("Relational:JsonPropertyName", "date");
+                        .HasColumnType("nvarchar(100)")
+                        .HasAnnotation("Relational:JsonPropertyName", "category");
 
                     b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasAnnotation("Relational:JsonPropertyName", "date");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
+                        .HasColumnType("nvarchar(255)")
                         .HasAnnotation("Relational:JsonPropertyName", "description");
 
                     b.HasKey("Id");

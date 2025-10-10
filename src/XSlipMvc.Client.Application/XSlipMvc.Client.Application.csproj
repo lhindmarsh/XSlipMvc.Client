@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\XSlipMvc.Client.Domain\XSlipMvc.Client.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

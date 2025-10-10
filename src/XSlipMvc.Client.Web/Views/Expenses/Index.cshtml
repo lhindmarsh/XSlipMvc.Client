@@ -2,6 +2,10 @@
 
 @model IEnumerable<ExpenseViewModel>
 
+@{
+    ViewData["Title"] = "Expenses List";
+}
+
 <h2>Expenses</h2>
 
 <div class="container">
@@ -12,21 +16,31 @@
                 <th>Amount</th>
                 <th>Category</th>
                 <th>Date</th>
+                <th>Remove</th>
             </tr>
         </thead>
 
         <tbody>
             @foreach (var expense in Model)
             {
-                <tr>
+                <tr style="text-align: center; vertical-align: middle;">
                     <td>@expense.Description</td>
                     <td>@expense.Amount</td>
                     <td>@expense.Category</td>
                     <td>@expense.Date.ToShortDateString()</td>
+                    <td>
+                        <input type="checkbox" />
+                    </td>
                 </tr>
             }
         </tbody>
-
     </table>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Success"]
+        </div>
+    }
 
 </div>
