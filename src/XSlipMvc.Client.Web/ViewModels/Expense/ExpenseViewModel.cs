@@ -2,11 +2,15 @@
 {
     public class ExpenseViewModel
     {
+        public int Id { get; set; }
+
         public string Description { get; set; } = null!;
 
         public decimal Amount { get; set; }
 
-        public string Category { get; set; } = null!;
+        public int ExpenseCategoryId { get; set; }
+
+        public string ExpenseCategoryName { get; set; } = string.Empty;
 
         //[DisplayFormat(DataFormatString = "{dd-MMM-yyyy}")]
         public DateTime Date { get; set; } = DateTime.Now;

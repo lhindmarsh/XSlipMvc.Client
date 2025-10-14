@@ -1,5 +1,5 @@
 ﻿using XSlipMvc.Client.Application.Common;
-using XSlipMvc.Client.Domain.Entities;
+using XSlipMvc.Client.Domain.Entities.Expense;
 
 namespace XSlipMvc.Client.Application.Services
 {
@@ -9,6 +9,8 @@ namespace XSlipMvc.Client.Application.Services
 
         Task<ServiceResult> AddAsync(Expense expense);
 
-        ServiceResult Delete(Expense expense);
+        Task<ServiceResult> Delete(Expense expense);
+
+        //Task<ServiceResult> GetByIdAsync(int id);
     }
 }

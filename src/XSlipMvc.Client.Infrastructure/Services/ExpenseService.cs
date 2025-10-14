@@ -1,7 +1,7 @@
 ﻿using XSlipMvc.Client.Application.Common;
 using XSlipMvc.Client.Application.Interfaces;
 using XSlipMvc.Client.Application.Services;
-using XSlipMvc.Client.Domain.Entities;
+using XSlipMvc.Client.Domain.Entities.Expense;
 
 namespace XSlipMvc.Client.Infrastructure.Services
 {
@@ -25,7 +25,7 @@ namespace XSlipMvc.Client.Infrastructure.Services
 
             if (expense == null)
             {
-                result.AddError("Expense description is invalid.");
+                result.AddError("Expense is invalid.");
             }
 
             if (!result.Success)
@@ -40,9 +40,29 @@ namespace XSlipMvc.Client.Infrastructure.Services
             return ServiceResult.Ok();
         }
 
-        public ServiceResult Delete(Expense expense)
+        public async Task<ServiceResult> Delete(Expense expense)
         {
+            var result = new ServiceResult();
 
+            if (expense.Id == 0)
+            {
+                result.AddError("Expense Id is invalid");
+            }
+
+            var foundExpense = await _repo.GetByIdAsync(expense.Id);
+            if (foundExpense == null)
+            {
+                result.AddError($"Failed to find Expense with Id {expense.Id}");
+            }
+
+            if (!result.Success)
+            {
+                return result;
+            }
+
+            _repo.Delete(foundExpense);
+
+            await _repo.SaveAsync();
 
             return ServiceResult.Ok();
         }
