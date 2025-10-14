@@ -1,5 +1,5 @@
 ﻿using XSlipMvc.Client.Application.Common;
-using XSlipMvc.Client.Domain.Entities;
+using XSlipMvc.Client.Domain.Entities.Expense;
 
 namespace XSlipMvc.Client.Application.Services
 {

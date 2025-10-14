@@ -9,44 +9,37 @@
 <h2>Expenses</h2>
 
 <div class="container">
-    <table>
-        <thead>
-            <tr>
-                <th>Description</th>
-                <th>Amount</th>
-                <th>Category</th>
-                <th>Date</th>
-                <th>Remove</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            @foreach (var expense in Model)
-            {
-                <tr style="text-align: center; vertical-align: middle;">
-                    <td>@expense.Description</td>
-                    <td>@expense.Amount</td>
-                    <td>@expense.Category</td>
-                    <td>@expense.Date.ToShortDateString()</td>
-                    <td>
-                        <input type="checkbox" />
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-
-    @if (TempData["Success"] != null)
-    {
-        <div class="alert alert-success">
-            @TempData["Success"]
-        </div>
-    }
-
     <form asp-controller="Expenses" asp-action="DeleteExpense" method="post">
-        <button class="btn btn-primary sm">Add New Expense</button>
-        @* <input type="hidden" asp-for="Id" /> *@
-        <button type="submit" class="btn btn-danger">Remove</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Amount</th>
+                    <th>Category</th>
+                    <th>Date</th>
+                    <th>Remove</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var expense in Model)
+                {
+                    <tr style="text-align: center; vertical-align: middle;">
+                        <td>@expense.Description</td>
+                        <td>@expense.Amount</td>
+                        <td>@expense.ExpenseCategoryName</td>
+                        <td>@expense.Date.ToShortDateString()</td>
+                        <td>
+                            <input type="checkbox" name="selectedIds" value="@expense.Id" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <a asp-action="Add" class="btn btn-primary">Add New Expense</a>
+        <button type="submit" class="btn btn-danger">Remove Selected</button>
+
     </form>
 
 </div>

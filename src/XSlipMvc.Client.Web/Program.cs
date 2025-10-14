@@ -1,4 +1,5 @@
 using XSlipMvc.Client.Infrastructure.Persistence.Configurations;
+using XSlipMvc.Client.Infrastructure.Persistence.Seeding;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,13 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
+
+//Seed the database
+using (var scope = app.Services.CreateScope())
+{
+    var seeder = scope.ServiceProvider.GetRequiredService<IDatabaseSeeder>();
+    await seeder.SeedAsync();
+}
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -22,7 +30,5 @@ app.UseEndpoints(endpoints =>
         pattern: "{controller=Expenses}/{action=Index}/{id?}");
 });
 #pragma warning restore ASP0014 // Suggest using top level route registrations
-
-//app.MapGet("/", () => "Hello World!");
 
 app.Run();

@@ -35,9 +35,7 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Repositories
 
         public async Task<T?> GetByIdAsync(int id)
         {
-            var x = await _dbSet.FindAsync(id);
-
-            return x;
+            return await _dbSet.FindAsync(id);
         }
 
         public async Task SaveAsync()

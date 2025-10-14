@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace XSlipMvc.Client.Domain.Entities
+namespace XSlipMvc.Client.Domain.Entities.Expense
 {
     public class Expense
     {
@@ -14,8 +14,9 @@ namespace XSlipMvc.Client.Domain.Entities
         [JsonPropertyName("amount")]
         public decimal Amount { get; set; }
 
-        [JsonPropertyName("category")]
-        public string Category { get; set; } = null!;
+        public int ExpenseCategoryId { get; set; }
+
+        public ExpenseCategory ExpenseCategory { get; set; } = null!;
 
         [JsonPropertyName("date")]
         public DateTime Date { get; set; } = DateTime.Now;
