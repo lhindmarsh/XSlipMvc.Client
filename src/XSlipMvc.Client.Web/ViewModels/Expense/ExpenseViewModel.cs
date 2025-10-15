@@ -1,20 +1,23 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace XSlipMvc.Client.Web.ViewModels.Expense
 {
     public class ExpenseViewModel
     {
-        [Display(Name = "Expense Description")]
-        public string Description { get; set; }
+        public int Id { get; set; }
 
-        [Display(Name = "Expense Amount")]
+        public string Description { get; set; } = null!;
+
         public decimal Amount { get; set; }
 
-        [Display(Name = "Expense Category")]
-        public string Category { get; set; }
+        public int ExpenseCategoryId { get; set; }
 
-        [Display(Name = "Date Added")]
-        [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
+        public string ExpenseCategoryName { get; set; } = string.Empty;
+
+        //[DisplayFormat(DataFormatString = "{dd-MMM-yyyy}")]
         public DateTime Date { get; set; } = DateTime.Now;
+
+        //Populate the ExpenseView model with ExpenseCategory list
+        public IEnumerable<SelectListItem>? ExpenseCategories { get; set; }
     }
 }

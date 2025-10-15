@@ -2,31 +2,44 @@
 
 @model IEnumerable<ExpenseViewModel>
 
+@{
+    ViewData["Title"] = "Expenses List";
+}
+
 <h2>Expenses</h2>
 
 <div class="container">
-    <table>
-        <thead>
-            <tr>
-                <th>Description</th>
-                <th>Amount</th>
-                <th>Category</th>
-                <th>Date</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            @foreach (var expense in Model)
-            {
+    <form asp-controller="Expenses" asp-action="DeleteExpense" method="post">
+        <table>
+            <thead>
                 <tr>
-                    <td>@expense.Description</td>
-                    <td>@expense.Amount</td>
-                    <td>@expense.Category</td>
-                    <td>@expense.Date.ToShortDateString()</td>
+                    <th>Description</th>
+                    <th>Amount</th>
+                    <th>Category</th>
+                    <th>Date</th>
+                    <th>Remove</th>
                 </tr>
-            }
-        </tbody>
+            </thead>
 
-    </table>
+            <tbody>
+                @foreach (var expense in Model)
+                {
+                    <tr style="text-align: center; vertical-align: middle;">
+                        <td>@expense.Description</td>
+                        <td>@expense.Amount</td>
+                        <td>@expense.ExpenseCategoryName</td>
+                        <td>@expense.Date.ToShortDateString()</td>
+                        <td>
+                            <input type="checkbox" name="selectedIds" value="@expense.Id" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <a asp-action="Add" class="btn btn-primary">Add New Expense</a>
+        <button type="submit" class="btn btn-danger">Remove Selected</button>
+
+    </form>
 
 </div>

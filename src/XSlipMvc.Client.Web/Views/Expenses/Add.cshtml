@@ -1,0 +1,40 @@
+﻿@using XSlipMvc.Client.Web.ViewModels.Expense
+
+@model ExpenseViewModel
+
+@{
+    ViewData["Title"] = "Add Expense";
+}
+
+<div>
+    <h2>Add Expense</h2>
+
+    <form asp-action="Add" method="post">
+        <div>
+            <label asp-for="Description"></label>
+            <input asp-for="Description" />
+            <span asp-validation-for="Description"></span>
+        </div>
+        <div>
+            <label asp-for="Amount"></label>
+            <input asp-for="Amount" />
+            <span asp-validation-for="Amount"></span>
+        </div>
+        <div>
+            <label asp-for="ExpenseCategoryId">Category</label>
+            <select asp-for="ExpenseCategoryId" asp-items="Model.ExpenseCategories">
+                <option value="">-- Select Category --</option>
+            </select>
+            <span asp-validation-for="ExpenseCategoryId"></span>
+        </div>
+        <div>
+            <label asp-for="Date"></label>
+            <input asp-for="Date" />
+            <span asp-validation-for="Date"></span>
+        </div>
+
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <button type="submit" class="btn btn-primary">Add Expense</button>
+    </form>
+</div>
