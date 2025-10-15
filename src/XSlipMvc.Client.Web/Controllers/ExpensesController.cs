@@ -9,15 +9,17 @@ namespace XSlipMvc.Client.Web.Controllers
     public class ExpensesController : Controller
     {
         private readonly IExpenseService _service;
+        private readonly IExpenseCategoryService _expenseCategoryService;
 
-        public ExpensesController(IExpenseService service)
+        public ExpensesController(IExpenseService service, IExpenseCategoryService categoryService)
         {
             _service = service;
+            _expenseCategoryService = categoryService;
         }
 
         public async Task<IActionResult> Index()
         {
-            var expenses = await _service.GetAllAsync();
+            var expenses = await _service.GetAllWithCategoryAsync();
 
             var viewModel = expenses
                 .Select(e => new ExpenseViewModel
@@ -34,9 +36,20 @@ namespace XSlipMvc.Client.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Add()
+        public async Task<IActionResult> Add()
         {
-            return View(new ExpenseViewModel());
+            var categories = await _expenseCategoryService.GetAllAsync();
+
+            var viewModel = new ExpenseViewModel
+            {
+                ExpenseCategories = categories.Select(c => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+                {
+                    Value = c.Id.ToString(),
+                    Text = c.Category
+                })
+            };
+
+            return View(viewModel);
         }
 
         [HttpPost]

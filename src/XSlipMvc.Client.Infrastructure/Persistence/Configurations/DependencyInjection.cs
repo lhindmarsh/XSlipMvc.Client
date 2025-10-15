@@ -8,7 +8,7 @@ using XSlipMvc.Client.Application.Services;
 using XSlipMvc.Client.Infrastructure.Persistence.Context;
 using XSlipMvc.Client.Infrastructure.Persistence.Repositories;
 using XSlipMvc.Client.Infrastructure.Persistence.Seeding;
-using XSlipMvc.Client.Infrastructure.Services;
+using XSlipMvc.Client.Infrastructure.Services.ExpenseService;
 
 namespace XSlipMvc.Client.Infrastructure.Persistence.Configurations
 {
@@ -32,6 +32,7 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Configurations
 
             services.AddScoped<IDatabaseSeeder, DatabaseSeeder>();
 
+            services.AddScoped<IExpenseCategoryService, ExpenseCategoryService>();
             services.AddScoped<IExpenseService, ExpenseService>();
 
             return services;

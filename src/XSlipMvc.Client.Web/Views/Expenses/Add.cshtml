@@ -4,7 +4,6 @@
 
 @{
     ViewData["Title"] = "Add Expense";
-    var categories = ViewBag.ExpenseCategories as List<SelectListItem> ?? new List<SelectListItem>();
 }
 
 <div>
@@ -23,7 +22,7 @@
         </div>
         <div>
             <label asp-for="ExpenseCategoryId">Category</label>
-            <select asp-for="ExpenseCategoryId" asp-items="categories">
+            <select asp-for="ExpenseCategoryId" asp-items="Model.ExpenseCategories">
                 <option value="">-- Select Category --</option>
             </select>
             <span asp-validation-for="ExpenseCategoryId"></span>

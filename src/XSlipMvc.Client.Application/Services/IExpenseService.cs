@@ -7,6 +7,8 @@ namespace XSlipMvc.Client.Application.Services
     {
         Task<IEnumerable<Expense>> GetAllAsync();
 
+        Task<IEnumerable<Expense>> GetAllWithCategoryAsync();
+
         Task<ServiceResult> AddAsync(Expense expense);
 
         Task<ServiceResult> Delete(Expense expense);

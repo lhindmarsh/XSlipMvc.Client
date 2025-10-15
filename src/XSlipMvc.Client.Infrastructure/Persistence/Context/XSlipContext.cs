@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-using XSlipMvc.Client.Domain.Entities;
+using XSlipMvc.Client.Domain.Entities.Bank;
 using XSlipMvc.Client.Domain.Entities.Expense;
 
 namespace XSlipMvc.Client.Infrastructure.Persistence.Context
@@ -14,18 +14,18 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Context
         {
             //Expense
             modelBuilder.Entity<Expense>()
+                .HasOne(e => e.ExpenseCategory)
+                .WithMany(ec => ec.Expenses)
+                .HasForeignKey(e => e.ExpenseCategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Expense>()
                 .Property(e => e.Description)
                 .HasColumnType("nvarchar(255)");
 
             modelBuilder.Entity<Expense>()
                 .Property(e => e.Amount)
                 .HasColumnType("decimal(18,2)");
-
-            modelBuilder.Entity<Expense>()
-                .HasOne(e => e.ExpenseCategory)
-                .WithMany(ec => ec.Expenses)
-                .HasForeignKey(e => e.ExpenseCategoryId)
-                .OnDelete(DeleteBehavior.Restrict);
 
             //ExpenseCategory
             modelBuilder.Entity<ExpenseCategory>()
@@ -38,16 +38,31 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Context
 
             //Bank
             modelBuilder.Entity<Bank>()
+                .HasMany(b => b.BankDetails)
+                .WithOne()
+                .HasForeignKey(bd => bd.BankId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Bank>()
+                .HasIndex(b => b.Name)
+                .IsUnique();
+
+            modelBuilder.Entity<Bank>()
                 .Property(b => b.Name)
                 .HasColumnType("nvarchar(100)");
 
             modelBuilder.Entity<Bank>()
-                .Property(b => b.AccountNumber)
-                .HasColumnType("varchar(20)");
-
-            modelBuilder.Entity<Bank>()
                 .Property(b => b.Nickname)
                 .HasColumnType("nvarchar(15)");
+
+            //BankDetails
+            modelBuilder.Entity<BankDetails>()
+                .HasIndex(bd => bd.AccountNumber)
+                .IsUnique();
+
+            modelBuilder.Entity<BankDetails>()
+                .Property(bd => bd.AccountNumber)
+                .HasColumnType("nvarchar(20)");
         }
 
         public DbSet<Expense> Expenses { get; set; }
@@ -55,5 +70,7 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Context
         public DbSet<ExpenseCategory> ExpenseCategories { get; set; }
 
         public DbSet<Bank> Banks { get; set; }
+
+        public DbSet<BankDetails> BankDetails { get; set; }
     }
 }
