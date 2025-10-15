@@ -33,6 +33,8 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Seeding
 
                     await _context.SaveChangesAsync();
                 }
+
+                await transaction.CommitAsync();
             }
             catch
             {

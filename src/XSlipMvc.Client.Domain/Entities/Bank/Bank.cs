@@ -1,4 +1,4 @@
-﻿namespace XSlipMvc.Client.Domain.Entities
+﻿namespace XSlipMvc.Client.Domain.Entities.Bank
 {
     public class Bank
     {
@@ -6,8 +6,8 @@
 
         public string Name { get; set; } = null!;
 
-        public string AccountNumber { get; set; } = null!;
-
         public string? Nickname { get; set; }
+
+        public ICollection<BankDetails> BankDetails { get; set; } = new List<BankDetails>();
     }
 }

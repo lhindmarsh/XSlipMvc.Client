@@ -3,7 +3,7 @@ using XSlipMvc.Client.Application.Interfaces;
 using XSlipMvc.Client.Application.Services;
 using XSlipMvc.Client.Domain.Entities.Expense;
 
-namespace XSlipMvc.Client.Infrastructure.Services
+namespace XSlipMvc.Client.Infrastructure.Services.ExpenseService
 {
     public class ExpenseService : IExpenseService
     {
@@ -17,6 +17,11 @@ namespace XSlipMvc.Client.Infrastructure.Services
         public async Task<IEnumerable<Expense>> GetAllAsync()
         {
             return await _repo.GetAllAsync();
+        }
+
+        public async Task<IEnumerable<Expense>> GetAllWithCategoryAsync()
+        {
+            return await _repo.GetAllIncludingAsync(e => e.ExpenseCategory);
         }
 
         public async Task<ServiceResult> AddAsync(Expense expense)
