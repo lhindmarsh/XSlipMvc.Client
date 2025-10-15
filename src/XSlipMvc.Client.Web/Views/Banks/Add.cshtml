@@ -1,0 +1,22 @@
+﻿@using XSlipMvc.Client.Web.ViewModels.Bank
+
+@model BankViewModel
+
+@{
+    ViewData["Title"] = "Add Bank";
+}
+
+<div>
+    <h2>Add Bank</h2>
+    <form asp-action="Add" method="post">
+        <div>
+            <label asp-for="Name"></label>
+            <input asp-for="Name" />
+            <span asp-validation-for="Name"></span>
+        </div>
+        
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <button type="submit" class="btn btn-primary">Add Bank</button>
+    </form>
+</div>

@@ -51,10 +51,6 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Context
                 .Property(b => b.Name)
                 .HasColumnType("nvarchar(100)");
 
-            modelBuilder.Entity<Bank>()
-                .Property(b => b.Nickname)
-                .HasColumnType("nvarchar(15)");
-
             //BankDetails
             modelBuilder.Entity<BankDetails>()
                 .HasIndex(bd => bd.AccountNumber)
@@ -63,6 +59,10 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Context
             modelBuilder.Entity<BankDetails>()
                 .Property(bd => bd.AccountNumber)
                 .HasColumnType("nvarchar(20)");
+
+            modelBuilder.Entity<BankDetails>()
+                .Property(b => b.Nickname)
+                .HasColumnType("nvarchar(15)");
         }
 
         public DbSet<Expense> Expenses { get; set; }
