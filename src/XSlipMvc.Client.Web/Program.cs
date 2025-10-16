@@ -27,7 +27,7 @@ app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
         name: "default",
-        pattern: "{controller=Banks}/{action=Index}/{id?}");
+        pattern: "{controller=Banks}/{action=BankList}/{id?}");
 });
 #pragma warning restore ASP0014 // Suggest using top level route registrations
 

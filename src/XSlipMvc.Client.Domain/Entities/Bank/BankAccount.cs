@@ -1,6 +1,6 @@
 ﻿namespace XSlipMvc.Client.Domain.Entities.Bank
 {
-    public class BankDetails
+    public class BankAccount
     {
         public int Id { get; set; }
 

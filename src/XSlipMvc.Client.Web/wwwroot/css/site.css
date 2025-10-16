@@ -1,12 +1,12 @@
-﻿body {
+﻿.red-text {
+    color: red;
+}
+
+body {
     font-family: Roboto, sans-serif;
     background-color: #f5e2e2;
 }
 
 h1, h2, h3 {
     color: #333;
-}
-
-.btn {
-    margin-top: 5px;
 }

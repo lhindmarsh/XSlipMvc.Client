@@ -18,7 +18,7 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Configurations
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration config)
         {
             services.AddDbContext<XSlipContext>(options =>
-                options.UseSqlServer(config.GetConnectionString("ConnectionString_Local"))
+                options.UseSqlServer(config.GetConnectionString("ConnectionString_SQLExpress"))
                 .EnableSensitiveDataLogging()
                 .LogTo(Console.WriteLine, LogLevel.Information));
 
@@ -33,7 +33,7 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Configurations
 
             services.AddScoped<IDatabaseSeeder, DatabaseSeeder>();
 
-            services.AddScoped<IBankDetailsService, BankDetailsService>();
+            services.AddScoped<IBankAccountService, BankAccountService>();
             services.AddScoped<IBankService, BankService>();
 
             services.AddScoped<IExpenseCategoryService, ExpenseCategoryService>();

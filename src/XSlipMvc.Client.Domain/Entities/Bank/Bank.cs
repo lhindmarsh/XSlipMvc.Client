@@ -6,6 +6,6 @@
 
         public string Name { get; set; } = null!;
 
-        public ICollection<BankDetails> BankDetails { get; set; } = new List<BankDetails>();
+        public ICollection<BankAccount> BankAccounts { get; set; } = new List<BankAccount>();
     }
 }

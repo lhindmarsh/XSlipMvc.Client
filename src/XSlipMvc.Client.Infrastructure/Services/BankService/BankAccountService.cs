@@ -5,26 +5,26 @@ using XSlipMvc.Client.Domain.Entities.Bank;
 
 namespace XSlipMvc.Client.Infrastructure.Services.BankService
 {
-    public class BankDetailsService : IBankDetailsService
+    public class BankAccountService : IBankAccountService
     {
-        private readonly IGenericRepository<BankDetails> _repo;
+        private readonly IGenericRepository<BankAccount> _repo;
 
-        public BankDetailsService(IGenericRepository<BankDetails> repo)
+        public BankAccountService(IGenericRepository<BankAccount> repo)
         {
             _repo = repo;
         }
 
-        public async Task<IEnumerable<BankDetails>> GetAllAsync()
+        public async Task<IEnumerable<BankAccount>> GetAllAsync()
         {
             return await _repo.GetAllAsync();
         }
 
-        public Task<ServiceResult> AddAsync(BankDetails bankDetails)
+        public Task<ServiceResult> AddAsync(BankAccount bankAccount)
         {
             throw new NotImplementedException();
         }
 
-        public Task<ServiceResult> Delete(BankDetails bankDetails)
+        public Task<ServiceResult> Delete(BankAccount bankAccount)
         {
             throw new NotImplementedException();
         }

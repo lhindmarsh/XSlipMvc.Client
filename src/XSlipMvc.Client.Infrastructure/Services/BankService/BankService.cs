@@ -8,7 +8,7 @@ namespace XSlipMvc.Client.Infrastructure.Services.BankService
     public class BankService : IBankService
     {
         private readonly IGenericRepository<Bank> _repo;
-        
+
         public BankService(IGenericRepository<Bank> repo)
         {
             _repo = repo;
@@ -19,19 +19,50 @@ namespace XSlipMvc.Client.Infrastructure.Services.BankService
             return await _repo.GetAllAsync();
         }
 
-        public async Task<IEnumerable<Bank>> GetAllWithDetailsAsync()
+        public async Task<IEnumerable<Bank>> GetAllWithAccountsAsync()
         {
-            return await _repo.GetAllIncludingAsync(b => b.BankDetails);
+            return await _repo.GetAllIncludingAsync(b => b.BankAccounts);
         }
 
-        public Task<ServiceResult> AddAsync(Bank expense)
+        public Task<ServiceResult> AddAsync(Bank bank)
         {
             throw new NotImplementedException();
         }
 
-        public Task<ServiceResult> Delete(Bank expense)
+        public async Task<ServiceResult> Delete(Bank bank)
         {
-            throw new NotImplementedException();
+            var serviceResult = new ServiceResult();
+
+            if (bank.Id == 0)
+            {
+                serviceResult.AddError("Bank Id is invalid.");
+            }
+
+            var foundBank = await _repo.GetByIdAsync(bank.Id);
+            if (foundBank == null)
+            {
+                serviceResult.AddError($"Failed to find bank with Id {bank.Id}");
+            }
+
+            if (!serviceResult.Success)
+            {
+                return serviceResult;
+            }
+
+            try
+            {
+                _repo.Delete(foundBank);
+
+                await _repo.SaveAsync();
+
+                return ServiceResult.Ok();
+            }
+            catch
+            {
+                serviceResult.AddError("An error occurred while deleting the bank.");
+
+                return serviceResult;
+            }
         }
     }
 }

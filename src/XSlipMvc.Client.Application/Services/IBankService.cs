@@ -7,7 +7,7 @@ namespace XSlipMvc.Client.Application.Services
     {
         Task<IEnumerable<Bank>> GetAllAsync();
 
-        Task<IEnumerable<Bank>> GetAllWithDetailsAsync();
+        Task<IEnumerable<Bank>> GetAllWithAccountsAsync();
 
         Task<ServiceResult> AddAsync(Bank expense);
 

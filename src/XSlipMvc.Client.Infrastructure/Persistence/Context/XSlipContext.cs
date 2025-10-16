@@ -38,7 +38,7 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Context
 
             //Bank
             modelBuilder.Entity<Bank>()
-                .HasMany(b => b.BankDetails)
+                .HasMany(b => b.BankAccounts)
                 .WithOne()
                 .HasForeignKey(bd => bd.BankId)
                 .OnDelete(DeleteBehavior.Cascade);
@@ -51,26 +51,24 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Context
                 .Property(b => b.Name)
                 .HasColumnType("nvarchar(100)");
 
-            //BankDetails
-            modelBuilder.Entity<BankDetails>()
+            //BankAccount
+            modelBuilder.Entity<BankAccount>()
                 .HasIndex(bd => bd.AccountNumber)
                 .IsUnique();
 
-            modelBuilder.Entity<BankDetails>()
+            modelBuilder.Entity<BankAccount>()
                 .Property(bd => bd.AccountNumber)
                 .HasColumnType("nvarchar(20)");
 
-            modelBuilder.Entity<BankDetails>()
+            modelBuilder.Entity<BankAccount>()
                 .Property(b => b.Nickname)
                 .HasColumnType("nvarchar(15)");
         }
 
         public DbSet<Expense> Expenses { get; set; }
-
         public DbSet<ExpenseCategory> ExpenseCategories { get; set; }
 
         public DbSet<Bank> Banks { get; set; }
-
-        public DbSet<BankDetails> BankDetails { get; set; }
+        public DbSet<BankAccount> BankAccounts { get; set; }
     }
 }

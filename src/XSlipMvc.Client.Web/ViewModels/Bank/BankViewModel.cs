@@ -10,6 +10,6 @@ namespace XSlipMvc.Client.Web.ViewModels.Bank
 
         public int BankDetailsId { get; set; }
 
-        public IEnumerable<SelectListItem>? BankDetails { get; set; }
+        public IEnumerable<SelectListItem>? BankAccounts { get; set; }
     }
 }

@@ -26,4 +26,10 @@
 		<Folder Include="ViewModels\Home\" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Content Update="C:\Users\ljhme\.nuget\packages\bootstrap\5.3.8\contentFiles\any\any\wwwroot\css\bootstrap.css">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+
 </Project>

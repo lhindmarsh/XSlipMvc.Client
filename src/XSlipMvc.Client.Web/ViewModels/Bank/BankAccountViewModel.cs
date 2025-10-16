@@ -1,6 +1,6 @@
 ﻿namespace XSlipMvc.Client.Web.ViewModels.Bank
 {
-    public class BankDetailsViewModel
+    public class BankAccountViewModel
     {
         public int Id { get; set; }
         public string AccountNumber { get; set; } = null!;
