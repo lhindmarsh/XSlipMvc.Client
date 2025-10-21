@@ -24,6 +24,24 @@ namespace XSlipMvc.Client.Infrastructure.Services.BankService
             return await _repo.GetAllIncludingAsync(b => b.BankAccounts);
         }
 
+        public async Task<Bank> GetByIdAsync(int id)
+        {
+            var serviceResult = new ServiceResult();
+
+            if (id == 0)
+            {
+                serviceResult.AddError("Bank Id is invalid.");
+            }
+
+            var foundBank = await _repo.GetByIdAsync(id);
+            if (foundBank == null)
+            {
+                serviceResult.AddError($"Failed to find bank with Id {id}");
+            }
+
+            return serviceResult.Success ? foundBank : null;
+        }
+
         public Task<ServiceResult> AddAsync(Bank bank)
         {
             throw new NotImplementedException();

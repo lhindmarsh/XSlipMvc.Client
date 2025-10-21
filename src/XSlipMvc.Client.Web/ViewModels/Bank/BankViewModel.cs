@@ -8,7 +8,7 @@ namespace XSlipMvc.Client.Web.ViewModels.Bank
 
         public string Name { get; set; } = null!;
 
-        public int BankDetailsId { get; set; }
+        public int BankAccountsId { get; set; }
 
         public IEnumerable<SelectListItem>? BankAccounts { get; set; }
     }

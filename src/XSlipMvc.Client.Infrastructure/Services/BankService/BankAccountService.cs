@@ -19,9 +19,34 @@ namespace XSlipMvc.Client.Infrastructure.Services.BankService
             return await _repo.GetAllAsync();
         }
 
-        public Task<ServiceResult> AddAsync(BankAccount bankAccount)
+        public async Task<ServiceResult> AddAsync(BankAccount bankAccount)
         {
-            throw new NotImplementedException();
+            var serviceResult = new ServiceResult();
+
+            if (bankAccount.BankId == 0)
+            {
+                serviceResult.AddError("Bank Id is invalid.");
+            }
+
+            if (!serviceResult.Success)
+            {
+                return serviceResult;
+            }
+
+            try
+            {
+                await _repo.AddAsync(bankAccount);
+
+                await _repo.SaveAsync();
+
+                return ServiceResult.Ok();
+            }
+            catch
+            {
+                serviceResult.AddError("An error occurred while adding the bank account.");
+
+                return serviceResult;
+            }
         }
 
         public Task<ServiceResult> Delete(BankAccount bankAccount)

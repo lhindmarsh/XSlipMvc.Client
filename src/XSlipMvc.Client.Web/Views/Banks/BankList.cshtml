@@ -29,17 +29,20 @@
                             <td>@bank.Id</td>
                             <td>@bank.Name</td>
                             <td>
-                                <a asp-action="EditBank"
-                                   asp-route-id="@bank.Id"
-                                   class="btn btn-outline-info">Edit</a>
-                                <a asp-action="RemoveBank"
-                                   asp-route-id="@bank.Id"
-                                   class="btn btn-outline-info">Remove</a>
+                                <a asp-action="EditBank" asp-route-id="@bank.Id" class="btn btn-outline-info">Edit</a>
+                                <a asp-action="RemoveBank" asp-route-id="@bank.Id" class="btn btn-outline-info">Remove</a>
                             </td>
                             <td>
-                                (@bank.BankAccounts.Count()) <a asp-action="EditBankAccounts"
-                                                                asp-route-id="@bank.Id"
-                                                                class="btn btn-outline-info">Edit</a>
+                                <span>(@bank.BankAccounts.Count())</span>
+
+                                @if (@bank.BankAccounts.Count() > 0)
+                                {
+                                    <a asp-action="CreateEditBankAccounts" asp-route-id="@bank.Id" class="btn btn-outline-info">Edit</a>
+                                }
+                                else
+                                {
+                                    <a asp-action="CreateEditBankAccounts" asp-route-id="@bank.Id" class="btn btn-outline-info">Create</a>
+                                }
                             </td>
                         </tr>
                     }
@@ -48,14 +51,16 @@
 
         </form>
     }
-    else
-    {
-        <form asp-controller="Banks" method="post">
-            <div>
-                There are no bank accounts currently:
-                <button class="btn btn-primary">Add New Bank Account</button>
-            </div>
-        </form>
-    }
+    <form asp-controller="Banks" method="post">
+        <div>
+            @if (Model.Count() == 0)
+            {
+                <p>
+                    "There are no bank accounts currently:"
+                </p>
+            }
+            <button class="btn btn-primary">Add New Bank Account</button>
+        </div>
+    </form>
 
 </div>

@@ -9,6 +9,8 @@ namespace XSlipMvc.Client.Application.Services
 
         Task<IEnumerable<Bank>> GetAllWithAccountsAsync();
 
+        Task<Bank> GetByIdAsync(int id);
+
         Task<ServiceResult> AddAsync(Bank expense);
 
         Task<ServiceResult> Delete(Bank expense);
