@@ -1,5 +1,10 @@
-﻿using XSlipMvc.Client.Domain.Entities.Bank;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+
+using XSlipMvc.Client.Domain.Entities.Bank;
 using XSlipMvc.Client.Domain.Entities.Expense;
+using XSlipMvc.Client.Infrastructure.Identity;
 using XSlipMvc.Client.Infrastructure.Persistence.Context;
 
 namespace XSlipMvc.Client.Infrastructure.Persistence.Seeding
@@ -7,20 +12,87 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Seeding
     public class DatabaseSeeder : IDatabaseSeeder
     {
         private readonly XSlipContext _context;
+        private readonly IServiceProvider _serviceProvider;
+        private readonly ILogger<DatabaseSeeder> _logger;
 
-        public DatabaseSeeder(XSlipContext context)
+        public DatabaseSeeder(XSlipContext context, IServiceProvider serviceProvider, ILogger<DatabaseSeeder> logger)
         {
             _context = context;
+            _serviceProvider = serviceProvider;
+            _logger = logger;
         }
 
         public async Task SeedAsync()
         {
-            await _context.Database.EnsureCreatedAsync();
+            try
+            {
+                _logger.LogInformation("\n***Ensuring database is created...***\n");
+                await _context.Database.EnsureCreatedAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while creating the database.");
+                throw;
+            }
 
             using var transaction = await _context.Database.BeginTransactionAsync();
 
             try
             {
+                //Seed admin & user manager roles
+                using var scope = _serviceProvider.CreateScope();
+                var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
+                _logger.LogInformation("\n***Seeding roles...***\n");
+
+                // Ensure roles
+                string[] roles = new[] { "Admin", "User" };
+                foreach (var role in roles)
+                {
+                    if (!await roleManager.RoleExistsAsync(role))
+                    {
+                        var r = new IdentityRole(role);
+                        var res = await roleManager.CreateAsync(r);
+                        if (!res.Succeeded) _logger.LogWarning("\nFailed to create role {Role}: {Errors}", role, string.Join(", ", res.Errors.Select(e => e.Description)));
+                    }
+                }
+
+                // Create admin account
+                var adminEmail = "lee@ljhmedia.com";
+                var admin = await userManager.FindByEmailAsync(adminEmail);
+
+                if (admin == null)
+                {
+                    admin = new ApplicationUser
+                    {
+                        UserName = adminEmail,
+                        Email = adminEmail,
+                        PasswordHash = "Scr1ab1n99!",
+                        DisplayName = "Administrator",
+                        EmailConfirmed = true // set to true for seed admin; change as needed
+                    };
+
+                    var createRes = await userManager.CreateAsync(admin, "Admin!2345"); // change to secure secret from secrets store
+                    if (!createRes.Succeeded)
+                    {
+                        _logger.LogError("Failed to create admin user: {Errors}", string.Join(", ", createRes.Errors.Select(e => e.Description)));
+                    }
+                    else
+                    {
+                        _logger.LogInformation("\n***Admin user created.***\n");
+
+                        // add to Admin role
+                        var addRoleRes = await userManager.AddToRoleAsync(admin, "Admin");
+                        if (!addRoleRes.Succeeded)
+                            _logger.LogWarning("\n***Failed to add admin to role: {Errors}***\n", string.Join(", ", addRoleRes.Errors.Select(e => e.Description)));
+                    }
+                }
+                else
+                {
+                    _logger.LogInformation("\n***Admin user already exists.***\n");
+                }
+
                 if (!_context.ExpenseCategories.Any())
                 {
                     _context.ExpenseCategories.AddRange(
@@ -68,6 +140,7 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Seeding
             catch
             {
                 await transaction.RollbackAsync();
+                _logger.LogError("\n***An error occurred while seeding the database: the transaction has been rolled back.***\n");
                 throw;
             }
         }
