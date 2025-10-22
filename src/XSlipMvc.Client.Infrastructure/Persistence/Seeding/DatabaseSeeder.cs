@@ -68,7 +68,7 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Seeding
                     {
                         UserName = adminEmail,
                         Email = adminEmail,
-                        PasswordHash = "Scr1ab1n99!",
+                        PasswordHash = "passwordHere!!22",
                         DisplayName = "Administrator",
                         EmailConfirmed = true // set to true for seed admin; change as needed
                     };
