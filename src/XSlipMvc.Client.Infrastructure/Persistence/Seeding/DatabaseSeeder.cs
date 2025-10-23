@@ -155,7 +155,7 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Seeding
             catch
             {
                 await transaction.RollbackAsync();
-                _logger.LogError("\n***An error occurred while seeding the database: the transaction has been rolled back.***\n");
+                _logger.LogCritical("\n***An error occurred while seeding the database: the transaction has been rolled back.***\n");
                 throw;
             }
         }
