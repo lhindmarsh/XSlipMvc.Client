@@ -26,16 +26,16 @@ namespace XSlipMvc.Client.Infrastructure.Services.ExpenseService
 
         public async Task<ServiceResult> AddAsync(Expense expense)
         {
-            var result = new ServiceResult();
+            var serviceResult = new ServiceResult();
 
             if (expense == null)
             {
-                result.AddError("Expense is invalid.");
+                serviceResult.AddError("Expense is invalid.");
             }
 
-            if (!result.Success)
+            if (!serviceResult.Success)
             {
-                return result;
+                return serviceResult;
             }
 
             await _repo.AddAsync(expense);
@@ -47,29 +47,38 @@ namespace XSlipMvc.Client.Infrastructure.Services.ExpenseService
 
         public async Task<ServiceResult> Delete(Expense expense)
         {
-            var result = new ServiceResult();
+            var serviceResult = new ServiceResult();
 
             if (expense.Id == 0)
             {
-                result.AddError("Expense Id is invalid");
+                serviceResult.AddError("Expense Id is invalid");
             }
 
             var foundExpense = await _repo.GetByIdAsync(expense.Id);
             if (foundExpense == null)
             {
-                result.AddError($"Failed to find Expense with Id {expense.Id}");
+                serviceResult.AddError($"Failed to find expense with Id {expense.Id}");
             }
 
-            if (!result.Success)
+            if (!serviceResult.Success)
             {
-                return result;
+                return serviceResult;
             }
 
-            _repo.Delete(foundExpense);
+            try
+            {
+                _repo.Delete(foundExpense);
 
-            await _repo.SaveAsync();
+                await _repo.SaveAsync();
 
-            return ServiceResult.Ok();
+                return ServiceResult.Ok();
+            }
+            catch
+            {
+                serviceResult.AddError("An error occurred while deleting the expense.");
+
+                return serviceResult;
+            }
         }
     }
 }

@@ -1,0 +1,32 @@
+﻿@using XSlipMvc.Client.Web.ViewModels.Bank
+
+@model BankAccountViewModel
+
+@{
+    ViewData["Title"] = "Create/Edit Bank Accounts";
+}
+
+<h2>Create/Edit Bank Accounts</h2>
+
+<div class="container">
+
+    <h3>Bank Id: @Model.Id</h3>
+
+    <form asp-controller="Banks" asp-action="CreateEditBankAccounts" method="post">
+        <input type="hidden" asp-for="Id" />
+        <div class="form-group">
+            <label asp-for="AccountNumber"></label>
+            <input type="text" asp-for="AccountNumber" class="form-control" />
+            <label asp-for="SortCode"></label>
+            <input type="text" asp-for="SortCode" class="form-control" />
+            <label asp-for="Nickname"></label>
+            <input type="text" asp-for="Nickname" class="form-control" />
+
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <button type="submit" class="btn btn-primary mt-3">Save Bank Account</button>
+        </div>
+
+    </form>
+
+</div>

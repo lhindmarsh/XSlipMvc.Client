@@ -14,6 +14,11 @@ namespace XSlipMvc.Client.Infrastructure.Services.ExpenseService
             _repo = repo;
         }
 
+        public async Task<IEnumerable<ExpenseCategory>> GetAllAsync()
+        {
+            return await _repo.GetAllAsync();
+        }
+
         public Task<ServiceResult> AddAsync(ExpenseCategory expense)
         {
             throw new NotImplementedException();
@@ -22,11 +27,6 @@ namespace XSlipMvc.Client.Infrastructure.Services.ExpenseService
         public Task<ServiceResult> Delete(ExpenseCategory expense)
         {
             throw new NotImplementedException();
-        }
-
-        public async Task<IEnumerable<ExpenseCategory>> GetAllAsync()
-        {
-            return await _repo.GetAllAsync();
         }
     }
 }

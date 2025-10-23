@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 using XSlipMvc.Client.Application.Services;
 using XSlipMvc.Client.Domain.Entities.Expense;
@@ -8,18 +9,18 @@ namespace XSlipMvc.Client.Web.Controllers
 {
     public class ExpensesController : Controller
     {
-        private readonly IExpenseService _service;
+        private readonly IExpenseService _expenseService;
         private readonly IExpenseCategoryService _expenseCategoryService;
 
         public ExpensesController(IExpenseService service, IExpenseCategoryService categoryService)
         {
-            _service = service;
+            _expenseService = service;
             _expenseCategoryService = categoryService;
         }
 
         public async Task<IActionResult> Index()
         {
-            var expenses = await _service.GetAllWithCategoryAsync();
+            var expenses = await _expenseService.GetAllWithCategoryAsync();
 
             var viewModel = expenses
                 .Select(e => new ExpenseViewModel
@@ -42,7 +43,7 @@ namespace XSlipMvc.Client.Web.Controllers
 
             var viewModel = new ExpenseViewModel
             {
-                ExpenseCategories = categories.Select(c => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+                ExpenseCategories = categories.Select(c => new SelectListItem
                 {
                     Value = c.Id.ToString(),
                     Text = c.Category
@@ -68,7 +69,7 @@ namespace XSlipMvc.Client.Web.Controllers
                 Date = model.Date
             };
 
-            var result = await _service.AddAsync(expense);
+            var result = await _expenseService.AddAsync(expense);
 
             if (!result.Success)
             {
@@ -101,7 +102,7 @@ namespace XSlipMvc.Client.Web.Controllers
 
             foreach (var id in selectedIds)
             {
-                var result = await _service.Delete(new Expense { Id = id });
+                var result = await _expenseService.Delete(new Expense { Id = id });
 
                 if (!result.Success)
                 {

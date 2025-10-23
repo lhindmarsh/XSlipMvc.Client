@@ -12,7 +12,7 @@ using XSlipMvc.Client.Infrastructure.Persistence.Context;
 namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(XSlipContext))]
-    [Migration("20251014115351_Initial")]
+    [Migration("20251021095942_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -25,7 +25,27 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Bank", b =>
+            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Bank.Bank", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Banks");
+                });
+
+            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Bank.BankAccount", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -35,18 +55,26 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations
 
                     b.Property<string>("AccountNumber")
                         .IsRequired()
-                        .HasColumnType("varchar(20)");
+                        .HasColumnType("nvarchar(20)");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<int>("BankId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Nickname")
                         .HasColumnType("nvarchar(15)");
 
+                    b.Property<string>("SortCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(15)");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Banks");
+                    b.HasIndex("AccountNumber")
+                        .IsUnique();
+
+                    b.HasIndex("BankId");
+
+                    b.ToTable("BankAccounts");
                 });
 
             modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Expense.Expense", b =>
@@ -101,6 +129,15 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations
                     b.ToTable("ExpenseCategories");
                 });
 
+            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Bank.BankAccount", b =>
+                {
+                    b.HasOne("XSlipMvc.Client.Domain.Entities.Bank.Bank", null)
+                        .WithMany("BankAccounts")
+                        .HasForeignKey("BankId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Expense.Expense", b =>
                 {
                     b.HasOne("XSlipMvc.Client.Domain.Entities.Expense.ExpenseCategory", "ExpenseCategory")
@@ -110,6 +147,11 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("ExpenseCategory");
+                });
+
+            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Bank.Bank", b =>
+                {
+                    b.Navigation("BankAccounts");
                 });
 
             modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Expense.ExpenseCategory", b =>

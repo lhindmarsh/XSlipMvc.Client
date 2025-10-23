@@ -13,7 +13,8 @@ namespace XSlipMvc.Client.Web.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return RedirectToPage("/Account/Login", new { area = "Identity" });
+
         }
     }
 }

@@ -34,9 +34,6 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("Nickname")
-                        .HasColumnType("nvarchar(15)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("Name")
@@ -45,7 +42,7 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations
                     b.ToTable("Banks");
                 });
 
-            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Bank.BankDetails", b =>
+            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Bank.BankAccount", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -60,9 +57,12 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations
                     b.Property<int>("BankId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Nickname")
+                        .HasColumnType("nvarchar(15)");
+
                     b.Property<string>("SortCode")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(15)");
 
                     b.HasKey("Id");
 
@@ -71,7 +71,7 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("BankId");
 
-                    b.ToTable("BankDetails");
+                    b.ToTable("BankAccounts");
                 });
 
             modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Expense.Expense", b =>
@@ -126,10 +126,10 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations
                     b.ToTable("ExpenseCategories");
                 });
 
-            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Bank.BankDetails", b =>
+            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Bank.BankAccount", b =>
                 {
                     b.HasOne("XSlipMvc.Client.Domain.Entities.Bank.Bank", null)
-                        .WithMany("BankDetails")
+                        .WithMany("BankAccounts")
                         .HasForeignKey("BankId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -148,7 +148,7 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Bank.Bank", b =>
                 {
-                    b.Navigation("BankDetails");
+                    b.Navigation("BankAccounts");
                 });
 
             modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Expense.ExpenseCategory", b =>

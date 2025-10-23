@@ -17,9 +17,7 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(100)", nullable: false),
-                    AccountNumber = table.Column<string>(type: "varchar(20)", nullable: false),
-                    Nickname = table.Column<string>(type: "nvarchar(15)", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(100)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -37,6 +35,28 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ExpenseCategories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BankAccounts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AccountNumber = table.Column<string>(type: "nvarchar(20)", nullable: false),
+                    SortCode = table.Column<string>(type: "nvarchar(15)", nullable: false),
+                    Nickname = table.Column<string>(type: "nvarchar(15)", nullable: true),
+                    BankId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BankAccounts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BankAccounts_Banks_BankId",
+                        column: x => x.BankId,
+                        principalTable: "Banks",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -62,6 +82,23 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_BankAccounts_AccountNumber",
+                table: "BankAccounts",
+                column: "AccountNumber",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BankAccounts_BankId",
+                table: "BankAccounts",
+                column: "BankId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Banks_Name",
+                table: "Banks",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ExpenseCategories_Category",
                 table: "ExpenseCategories",
                 column: "Category",
@@ -77,10 +114,13 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Banks");
+                name: "BankAccounts");
 
             migrationBuilder.DropTable(
                 name: "Expenses");
+
+            migrationBuilder.DropTable(
+                name: "Banks");
 
             migrationBuilder.DropTable(
                 name: "ExpenseCategories");

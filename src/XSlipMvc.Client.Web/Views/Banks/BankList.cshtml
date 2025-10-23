@@ -1,0 +1,66 @@
+﻿@using XSlipMvc.Client.Web.ViewModels.Bank
+
+@model IEnumerable<BankViewModel>
+
+@{
+    ViewData["Title"] = "Banks List";
+}
+
+<h2>Banks</h2>
+
+<div class="container">
+
+    @if (Model.Count() > 0)
+    {
+        <form asp-controller="Banks" method="get">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th></th>
+                        <th>Bank Accounts</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var bank in Model)
+                    {
+                        <tr>
+                            <td>@bank.Id</td>
+                            <td>@bank.Name</td>
+                            <td>
+                                <a asp-action="EditBank" asp-route-id="@bank.Id" class="btn btn-outline-info">Edit</a>
+                                <a asp-action="RemoveBank" asp-route-id="@bank.Id" class="btn btn-outline-info">Remove</a>
+                            </td>
+                            <td>
+                                <span>(@bank.BankAccounts.Count())</span>
+
+                                @if (@bank.BankAccounts.Count() > 0)
+                                {
+                                    <a asp-action="CreateEditBankAccounts" asp-route-id="@bank.Id" class="btn btn-outline-info">Edit</a>
+                                }
+                                else
+                                {
+                                    <a asp-action="CreateEditBankAccounts" asp-route-id="@bank.Id" class="btn btn-outline-info">Create</a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </form>
+    }
+    <form asp-controller="Banks" method="post">
+        <div>
+            @if (Model.Count() == 0)
+            {
+                <p>
+                    "There are no bank accounts currently:"
+                </p>
+            }
+            <button class="btn btn-primary">Add New Bank Account</button>
+        </div>
+    </form>
+
+</div>

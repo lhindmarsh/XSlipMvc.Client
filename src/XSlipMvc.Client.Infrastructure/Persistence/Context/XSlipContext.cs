@@ -38,9 +38,9 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Context
 
             //Bank
             modelBuilder.Entity<Bank>()
-                .HasMany(b => b.BankDetails)
+                .HasMany(b => b.BankAccounts)
                 .WithOne()
-                .HasForeignKey(bd => bd.BankId)
+                .HasForeignKey(ba => ba.BankId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Bank>()
@@ -51,26 +51,28 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Context
                 .Property(b => b.Name)
                 .HasColumnType("nvarchar(100)");
 
-            modelBuilder.Entity<Bank>()
-                .Property(b => b.Nickname)
-                .HasColumnType("nvarchar(15)");
-
-            //BankDetails
-            modelBuilder.Entity<BankDetails>()
-                .HasIndex(bd => bd.AccountNumber)
+            //BankAccount
+            modelBuilder.Entity<BankAccount>()
+                .HasIndex(ba => ba.AccountNumber)
                 .IsUnique();
 
-            modelBuilder.Entity<BankDetails>()
-                .Property(bd => bd.AccountNumber)
+            modelBuilder.Entity<BankAccount>()
+                .Property(ba => ba.AccountNumber)
                 .HasColumnType("nvarchar(20)");
+
+            modelBuilder.Entity<BankAccount>()
+                .Property(ba => ba.SortCode)
+                .HasColumnType("nvarchar(15)");
+
+            modelBuilder.Entity<BankAccount>()
+                .Property(ba => ba.Nickname)
+                .HasColumnType("nvarchar(15)");
         }
 
         public DbSet<Expense> Expenses { get; set; }
-
         public DbSet<ExpenseCategory> ExpenseCategories { get; set; }
 
         public DbSet<Bank> Banks { get; set; }
-
-        public DbSet<BankDetails> BankDetails { get; set; }
+        public DbSet<BankAccount> BankAccounts { get; set; }
     }
 }
