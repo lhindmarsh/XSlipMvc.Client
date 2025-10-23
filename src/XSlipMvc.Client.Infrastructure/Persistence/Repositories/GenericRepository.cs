@@ -9,11 +9,11 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        private readonly XSlipContext _context;
+        private readonly XSlipDbContext _context;
 
         private readonly DbSet<T> _dbSet;
 
-        public GenericRepository(XSlipContext context)
+        public GenericRepository(XSlipDbContext context)
         {
             _context = context;
 

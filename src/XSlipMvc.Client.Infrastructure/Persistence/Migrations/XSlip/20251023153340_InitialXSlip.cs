@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations
+namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations.XSlip
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class InitialXSlip : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

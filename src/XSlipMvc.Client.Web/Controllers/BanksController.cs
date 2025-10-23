@@ -72,7 +72,7 @@ namespace XSlipMvc.Client.Web.Controllers
                 return RedirectToAction("BankList");
             }
 
-            var result = await _bankService.Delete(new Bank { Id = bankViewModel.Id });
+            var result = await _bankService.Delete(bankViewModel.Id);
 
             if (!result.Success)
             {

@@ -5,9 +5,9 @@ using XSlipMvc.Client.Domain.Entities.Expense;
 
 namespace XSlipMvc.Client.Infrastructure.Persistence.Context
 {
-    public class XSlipContext : DbContext
+    public class XSlipDbContext : DbContext
     {
-        public XSlipContext(DbContextOptions<XSlipContext> options) : base(options)
+        public XSlipDbContext(DbContextOptions<XSlipDbContext> options) : base(options)
         { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -67,6 +67,7 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Context
             modelBuilder.Entity<BankAccount>()
                 .Property(ba => ba.Nickname)
                 .HasColumnType("nvarchar(15)");
+
         }
 
         public DbSet<Expense> Expenses { get; set; }

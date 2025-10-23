@@ -13,6 +13,6 @@ namespace XSlipMvc.Client.Application.Services
 
         Task<ServiceResult> AddAsync(Bank expense);
 
-        Task<ServiceResult> Delete(Bank expense);
+        Task<ServiceResult> Delete(int bankId);
     }
 }

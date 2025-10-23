@@ -22,7 +22,7 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Configurations
             var connection = config.GetConnectionString("ConnectionString_SQLExpress");
 
             //DbContext for SQL Server (Express)
-            services.AddDbContext<XSlipContext>(options =>
+            services.AddDbContext<XSlipDbContext>(options =>
                 options.UseSqlServer(connection)
                 .LogTo(Console.WriteLine, LogLevel.Information));
 

@@ -2,7 +2,7 @@
 {
     public class Bank
     {
-        public int Id { get; set; }
+        public int Id { get; private set; }
 
         public string Name { get; set; } = null!;
 

@@ -12,11 +12,11 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Seeding
 {
     public class DatabaseSeeder : IDatabaseSeeder
     {
-        private readonly XSlipContext _context;
+        private readonly XSlipDbContext _context;
         private readonly IServiceProvider _serviceProvider;
         private readonly ILogger<DatabaseSeeder> _logger;
 
-        public DatabaseSeeder(XSlipContext context, IServiceProvider serviceProvider, ILogger<DatabaseSeeder> logger)
+        public DatabaseSeeder(XSlipDbContext context, IServiceProvider serviceProvider, ILogger<DatabaseSeeder> logger)
         {
             _context = context;
             _serviceProvider = serviceProvider;

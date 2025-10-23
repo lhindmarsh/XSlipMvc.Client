@@ -47,19 +47,19 @@ namespace XSlipMvc.Client.Infrastructure.Services.BankService
             throw new NotImplementedException();
         }
 
-        public async Task<ServiceResult> Delete(Bank bank)
+        public async Task<ServiceResult> Delete(int bankId)
         {
             var serviceResult = new ServiceResult();
 
-            if (bank.Id == 0)
+            if (bankId == 0)
             {
                 serviceResult.AddError("Bank Id is invalid.");
             }
 
-            var foundBank = await _repo.GetByIdAsync(bank.Id);
+            var foundBank = await _repo.GetByIdAsync(bankId);
             if (foundBank == null)
             {
-                serviceResult.AddError($"Failed to find bank with Id {bank.Id}");
+                serviceResult.AddError($"Failed to find bank with Id {bankId}");
             }
 
             if (!serviceResult.Success)

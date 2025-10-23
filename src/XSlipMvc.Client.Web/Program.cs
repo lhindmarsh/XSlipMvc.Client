@@ -30,18 +30,22 @@ app.UseAuthorization();
 #pragma warning disable ASP0014 // Suggest using top level route registrations
 app.UseEndpoints(endpoints =>
 {
+    //endpoints.MapControllerRoute(
+    //    name: "default",
+    //    pattern: "{controller=Home}/{action=Index}/{id?}");
+
     endpoints.MapControllerRoute(
         name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}");
+        pattern: "{controller=Banks}/{action=BankList}/{id?}");
 
     endpoints.MapRazorPages(); //for Identity UI endpoints
 
     // Redirect root to Identity login
-    endpoints.MapGet("/", context =>
-    {
-        context.Response.Redirect("/Identity/Account/Login");
-        return Task.CompletedTask;
-    });
+    //endpoints.MapGet("/", context =>
+    //{
+    //    context.Response.Redirect("/Identity/Account/Login");
+    //    return Task.CompletedTask;
+    //});
 });
 #pragma warning restore ASP0014 // Suggest using top level route registrations
 
