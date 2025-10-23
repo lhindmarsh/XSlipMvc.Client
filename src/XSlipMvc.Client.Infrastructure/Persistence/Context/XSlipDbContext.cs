@@ -51,6 +51,15 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Context
                 .Property(b => b.Name)
                 .HasColumnType("nvarchar(100)");
 
+            modelBuilder.Entity<BankOwner>()
+                .HasIndex(bo => new { bo.ApplicationUserId, bo.BankId })
+                .IsUnique();
+
+            modelBuilder.Entity<BankOwner>()
+                .HasOne(bo => bo.Bank)
+                .WithMany()
+                .HasForeignKey(bo => bo.BankId);
+
             //BankAccount
             modelBuilder.Entity<BankAccount>()
                 .HasIndex(ba => ba.AccountNumber)

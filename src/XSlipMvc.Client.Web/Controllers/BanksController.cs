@@ -23,6 +23,8 @@ namespace XSlipMvc.Client.Web.Controllers
         {
             var banks = await _bankService.GetAllWithAccountsAsync();
 
+            var banks2 = await _bankService.GetAllIncludingAsync();
+
             var viewModel = banks.Select(b => new BankViewModel
             {
                 Id = b.Id,
