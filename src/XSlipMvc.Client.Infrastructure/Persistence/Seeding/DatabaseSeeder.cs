@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -43,6 +44,7 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Seeding
                 using var scope = _serviceProvider.CreateScope();
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+                var config = scope.ServiceProvider.GetRequiredService<IConfiguration>();
 
                 _logger.LogInformation("\n***Seeding roles...***\n");
 
@@ -59,21 +61,32 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Seeding
                 }
 
                 // Create admin account
-                var adminEmail = "lee@ljhmedia.com";
+                string adminEmail = config["AdminUser:Email"];
+                if (string.IsNullOrEmpty(adminEmail))
+                {
+                    throw new ArgumentNullException("AdminUser:Email", "Admin email must be configured in the configuration settings.\nSet a local secret to store the relevant email.");
+                }
+
                 var admin = await userManager.FindByEmailAsync(adminEmail);
 
                 if (admin == null)
                 {
+                    string adminPassword = config["AdminUser:Password"];
+
+                    if (string.IsNullOrEmpty(adminPassword) || string.IsNullOrEmpty(adminEmail))
+                    {
+                        throw new ArgumentNullException("AdminUser:Password", "Admin password and email must be configured in the configuration settings.\nSet a local secret to store the relevant details");
+                    }
+
                     admin = new ApplicationUser
                     {
                         UserName = adminEmail,
                         Email = adminEmail,
-                        PasswordHash = "passwordHere!!22",
                         DisplayName = "Administrator",
                         EmailConfirmed = true // set to true for seed admin; change as needed
                     };
 
-                    var createRes = await userManager.CreateAsync(admin, "Admin!2345"); // change to secure secret from secrets store
+                    var createRes = await userManager.CreateAsync(admin, adminPassword); // change to secure secret from secrets store
                     if (!createRes.Succeeded)
                     {
                         _logger.LogError("Failed to create admin user: {Errors}", string.Join(", ", createRes.Errors.Select(e => e.Description)));
@@ -85,7 +98,9 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Seeding
                         // add to Admin role
                         var addRoleRes = await userManager.AddToRoleAsync(admin, "Admin");
                         if (!addRoleRes.Succeeded)
+                        {
                             _logger.LogWarning("\n***Failed to add admin to role: {Errors}***\n", string.Join(", ", addRoleRes.Errors.Select(e => e.Description)));
+                        }
                     }
                 }
                 else

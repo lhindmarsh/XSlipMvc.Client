@@ -1,10 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
 		<TargetFramework>net9.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-	</PropertyGroup>
+	  <UserSecretsId>23775b47-9929-46ef-a1e5-a4fb2a1146d9</UserSecretsId>
+  </PropertyGroup>
 
 	<ItemGroup>
 		<None Include="Views\Home\Index.cshtml" />
