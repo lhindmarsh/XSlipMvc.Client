@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 using XSlipMvc.Client.Application.Interfaces;
 using XSlipMvc.Client.Application.Services;
-using XSlipMvc.Client.Infrastructure.Identity;
+using XSlipMvc.Client.Domain.Entities.Identity;
 using XSlipMvc.Client.Infrastructure.Persistence.Context;
 using XSlipMvc.Client.Infrastructure.Persistence.Repositories;
 using XSlipMvc.Client.Infrastructure.Persistence.Seeding;
@@ -22,7 +22,7 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Configurations
             var connection = config.GetConnectionString("ConnectionString_SQLExpress");
 
             //DbContext for SQL Server (Express)
-            services.AddDbContext<XSlipContext>(options =>
+            services.AddDbContext<XSlipDbContext>(options =>
                 options.UseSqlServer(connection)
                 .LogTo(Console.WriteLine, LogLevel.Information));
 

@@ -1,17 +1,29 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-using XSlipMvc.Client.Domain.Entities.Bank;
-using XSlipMvc.Client.Domain.Entities.Expense;
+using XSlipMvc.Client.Domain.Entities.Banks;
+using XSlipMvc.Client.Domain.Entities.Expenses;
+using XSlipMvc.Client.Domain.Entities.Identity;
 
 namespace XSlipMvc.Client.Infrastructure.Persistence.Context
 {
-    public class XSlipContext : DbContext
+    public class XSlipDbContext : DbContext
     {
-        public XSlipContext(DbContextOptions<XSlipContext> options) : base(options)
+        public XSlipDbContext(DbContextOptions<XSlipDbContext> options) : base(options)
         { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //ApplicationUser configuration is done in ApplicationIdentityDbContext
+            modelBuilder.Entity<ApplicationUser>()
+                .ToTable("AspNetUsers", t => t.ExcludeFromMigrations(true));
+
+            modelBuilder.Entity<ApplicationUser>(entity =>
+            {
+                entity.HasMany(e => e.Banks)
+                .WithMany(b => b.Owners)
+                .UsingEntity(j => j.ToTable("BankOwners"));
+            });
+
             //Expense
             modelBuilder.Entity<Expense>()
                 .HasOne(e => e.ExpenseCategory)
@@ -51,6 +63,7 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Context
                 .Property(b => b.Name)
                 .HasColumnType("nvarchar(100)");
 
+
             //BankAccount
             modelBuilder.Entity<BankAccount>()
                 .HasIndex(ba => ba.AccountNumber)
@@ -67,12 +80,14 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Context
             modelBuilder.Entity<BankAccount>()
                 .Property(ba => ba.Nickname)
                 .HasColumnType("nvarchar(15)");
+
         }
 
         public DbSet<Expense> Expenses { get; set; }
         public DbSet<ExpenseCategory> ExpenseCategories { get; set; }
 
         public DbSet<Bank> Banks { get; set; }
+
         public DbSet<BankAccount> BankAccounts { get; set; }
     }
 }

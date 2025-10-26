@@ -1,4 +1,4 @@
-﻿namespace XSlipMvc.Client.Domain.Entities.Address
+﻿namespace XSlipMvc.Client.Domain.Entities.Addresses
 {
     public class Address
     {

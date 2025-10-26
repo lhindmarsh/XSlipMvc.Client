@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 using XSlipMvc.Client.Application.Common;
 using XSlipMvc.Client.Application.Services;
-using XSlipMvc.Client.Domain.Entities.Bank;
+using XSlipMvc.Client.Domain.Entities.Banks;
 using XSlipMvc.Client.Web.ViewModels.Bank;
 
 namespace XSlipMvc.Client.Web.Controllers
@@ -22,6 +22,8 @@ namespace XSlipMvc.Client.Web.Controllers
         public async Task<IActionResult> BankList()
         {
             var banks = await _bankService.GetAllWithAccountsAsync();
+
+            //var banks2 = await _bankService.GetAllIncludingAsync();
 
             var viewModel = banks.Select(b => new BankViewModel
             {
@@ -72,7 +74,7 @@ namespace XSlipMvc.Client.Web.Controllers
                 return RedirectToAction("BankList");
             }
 
-            var result = await _bankService.Delete(new Bank { Id = bankViewModel.Id });
+            var result = await _bankService.Delete(bankViewModel.Id);
 
             if (!result.Success)
             {
@@ -145,18 +147,5 @@ namespace XSlipMvc.Client.Web.Controllers
 
             return View("CreateEditBankAccounts", bankAccountViewModel);
         }
-
-        //[HttpPost]
-        //public async Task<IActionResult> EditBankDetails(BankDetailsViewModel bankDetails)
-        //{
-        //    var serviceResult = new ServiceResult();
-
-        //    if (!ModelState.IsValid)
-        //    {
-        //        serviceResult.AddError("Bank details are not valid.");
-
-        //        return View(BankDetails);
-        //    }
-        //}
     }
 }

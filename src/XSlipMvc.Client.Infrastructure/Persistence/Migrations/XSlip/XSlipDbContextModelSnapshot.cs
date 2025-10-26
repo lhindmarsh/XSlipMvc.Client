@@ -3,29 +3,41 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using XSlipMvc.Client.Infrastructure.Persistence.Context;
 
 #nullable disable
 
-namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations
+namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations.XSlip
 {
-    [DbContext(typeof(XSlipContext))]
-    [Migration("20251021095942_Initial")]
-    partial class Initial
+    [DbContext(typeof(XSlipDbContext))]
+    partial class XSlipDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.9")
+                .HasAnnotation("ProductVersion", "9.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Bank.Bank", b =>
+            modelBuilder.Entity("ApplicationUserBank", b =>
+                {
+                    b.Property<int>("BanksId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("OwnersId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("BanksId", "OwnersId");
+
+                    b.HasIndex("OwnersId");
+
+                    b.ToTable("BankOwners", (string)null);
+                });
+
+            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Banks.Bank", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -45,7 +57,7 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations
                     b.ToTable("Banks");
                 });
 
-            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Bank.BankAccount", b =>
+            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Banks.BankAccount", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -77,7 +89,7 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations
                     b.ToTable("BankAccounts");
                 });
 
-            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Expense.Expense", b =>
+            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Expenses.Expense", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -109,7 +121,7 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations
                     b.ToTable("Expenses");
                 });
 
-            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Expense.ExpenseCategory", b =>
+            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Expenses.ExpenseCategory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -129,18 +141,91 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations
                     b.ToTable("ExpenseCategories");
                 });
 
-            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Bank.BankAccount", b =>
+            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Identity.ApplicationUser", b =>
                 {
-                    b.HasOne("XSlipMvc.Client.Domain.Entities.Bank.Bank", null)
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AspNetUsers", null, t =>
+                        {
+                            t.ExcludeFromMigrations();
+                        });
+                });
+
+            modelBuilder.Entity("ApplicationUserBank", b =>
+                {
+                    b.HasOne("XSlipMvc.Client.Domain.Entities.Banks.Bank", null)
+                        .WithMany()
+                        .HasForeignKey("BanksId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("XSlipMvc.Client.Domain.Entities.Identity.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("OwnersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Banks.BankAccount", b =>
+                {
+                    b.HasOne("XSlipMvc.Client.Domain.Entities.Banks.Bank", null)
                         .WithMany("BankAccounts")
                         .HasForeignKey("BankId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Expense.Expense", b =>
+            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Expenses.Expense", b =>
                 {
-                    b.HasOne("XSlipMvc.Client.Domain.Entities.Expense.ExpenseCategory", "ExpenseCategory")
+                    b.HasOne("XSlipMvc.Client.Domain.Entities.Expenses.ExpenseCategory", "ExpenseCategory")
                         .WithMany("Expenses")
                         .HasForeignKey("ExpenseCategoryId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -149,12 +234,12 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations
                     b.Navigation("ExpenseCategory");
                 });
 
-            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Bank.Bank", b =>
+            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Banks.Bank", b =>
                 {
                     b.Navigation("BankAccounts");
                 });
 
-            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Expense.ExpenseCategory", b =>
+            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Expenses.ExpenseCategory", b =>
                 {
                     b.Navigation("Expenses");
                 });

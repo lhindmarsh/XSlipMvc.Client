@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-using XSlipMvc.Client.Infrastructure.Identity;
+using XSlipMvc.Client.Domain.Entities.Identity;
 
 namespace XSlipMvc.Client.Web.Areas.Identity.Pages.Account
 {
@@ -108,7 +108,7 @@ namespace XSlipMvc.Client.Web.Areas.Identity.Pages.Account
             // Request a redirect to the external login provider.
             var redirectUrl = Url.Page("./ExternalLogin", pageHandler: "Callback", values: new { returnUrl });
             var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
-            
+
             return Task.FromResult<IActionResult>(new ChallengeResult(provider, properties));
         }
     }

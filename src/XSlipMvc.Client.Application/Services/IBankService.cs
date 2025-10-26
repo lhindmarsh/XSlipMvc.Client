@@ -1,5 +1,5 @@
 ﻿using XSlipMvc.Client.Application.Common;
-using XSlipMvc.Client.Domain.Entities.Bank;
+using XSlipMvc.Client.Domain.Entities.Banks;
 
 namespace XSlipMvc.Client.Application.Services
 {
@@ -13,6 +13,6 @@ namespace XSlipMvc.Client.Application.Services
 
         Task<ServiceResult> AddAsync(Bank expense);
 
-        Task<ServiceResult> Delete(Bank expense);
+        Task<ServiceResult> Delete(int bankId);
     }
 }

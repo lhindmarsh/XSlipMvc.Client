@@ -1,4 +1,4 @@
-﻿namespace XSlipMvc.Client.Domain.Entities.Bank
+﻿namespace XSlipMvc.Client.Domain.Entities.Banks
 {
     public class BankAccount
     {

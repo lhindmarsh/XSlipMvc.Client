@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace XSlipMvc.Client.Domain.Entities.Expense
+namespace XSlipMvc.Client.Domain.Entities.Expenses
 {
     public class Expense
     {
