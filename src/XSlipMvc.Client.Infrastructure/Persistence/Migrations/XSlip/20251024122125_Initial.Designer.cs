@@ -12,8 +12,8 @@ using XSlipMvc.Client.Infrastructure.Persistence.Context;
 namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations.XSlip
 {
     [DbContext(typeof(XSlipDbContext))]
-    [Migration("20251023160835_BankOwner")]
-    partial class BankOwner
+    [Migration("20251024122125_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,22 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations.XSlip
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Bank.Bank", b =>
+            modelBuilder.Entity("ApplicationUserBank", b =>
+                {
+                    b.Property<int>("BanksId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("OwnersId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("BanksId", "OwnersId");
+
+                    b.HasIndex("OwnersId");
+
+                    b.ToTable("BankOwners", (string)null);
+                });
+
+            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Banks.Bank", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -45,7 +60,7 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations.XSlip
                     b.ToTable("Banks");
                 });
 
-            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Bank.BankAccount", b =>
+            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Banks.BankAccount", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -77,32 +92,7 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations.XSlip
                     b.ToTable("BankAccounts");
                 });
 
-            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Bank.BankOwner", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ApplicationUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("BankId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BankId");
-
-                    b.HasIndex("ApplicationUserId", "BankId")
-                        .IsUnique();
-
-                    b.ToTable("BankOwner");
-                });
-
-            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Expense.Expense", b =>
+            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Expenses.Expense", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -134,7 +124,7 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations.XSlip
                     b.ToTable("Expenses");
                 });
 
-            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Expense.ExpenseCategory", b =>
+            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Expenses.ExpenseCategory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -154,29 +144,91 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations.XSlip
                     b.ToTable("ExpenseCategories");
                 });
 
-            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Bank.BankAccount", b =>
+            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Identity.ApplicationUser", b =>
                 {
-                    b.HasOne("XSlipMvc.Client.Domain.Entities.Bank.Bank", null)
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AspNetUsers", null, t =>
+                        {
+                            t.ExcludeFromMigrations();
+                        });
+                });
+
+            modelBuilder.Entity("ApplicationUserBank", b =>
+                {
+                    b.HasOne("XSlipMvc.Client.Domain.Entities.Banks.Bank", null)
+                        .WithMany()
+                        .HasForeignKey("BanksId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("XSlipMvc.Client.Domain.Entities.Identity.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("OwnersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Banks.BankAccount", b =>
+                {
+                    b.HasOne("XSlipMvc.Client.Domain.Entities.Banks.Bank", null)
                         .WithMany("BankAccounts")
                         .HasForeignKey("BankId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Bank.BankOwner", b =>
+            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Expenses.Expense", b =>
                 {
-                    b.HasOne("XSlipMvc.Client.Domain.Entities.Bank.Bank", "Bank")
-                        .WithMany()
-                        .HasForeignKey("BankId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Bank");
-                });
-
-            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Expense.Expense", b =>
-                {
-                    b.HasOne("XSlipMvc.Client.Domain.Entities.Expense.ExpenseCategory", "ExpenseCategory")
+                    b.HasOne("XSlipMvc.Client.Domain.Entities.Expenses.ExpenseCategory", "ExpenseCategory")
                         .WithMany("Expenses")
                         .HasForeignKey("ExpenseCategoryId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -185,12 +237,12 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations.XSlip
                     b.Navigation("ExpenseCategory");
                 });
 
-            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Bank.Bank", b =>
+            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Banks.Bank", b =>
                 {
                     b.Navigation("BankAccounts");
                 });
 
-            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Expense.ExpenseCategory", b =>
+            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Expenses.ExpenseCategory", b =>
                 {
                     b.Navigation("Expenses");
                 });

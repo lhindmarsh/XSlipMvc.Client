@@ -155,77 +155,7 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations.Identity
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Bank.Bank", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Bank");
-                });
-
-            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Bank.BankAccount", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("AccountNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("BankId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Nickname")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SortCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BankId");
-
-                    b.ToTable("BankAccount");
-                });
-
-            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Bank.BankOwner", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ApplicationUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("BankId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.HasIndex("BankId");
-
-                    b.ToTable("BankOwner");
-                });
-
-            modelBuilder.Entity("XSlipMvc.Client.Infrastructure.Identity.ApplicationUser", b =>
+            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Identity.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -304,7 +234,7 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations.Identity
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("XSlipMvc.Client.Infrastructure.Identity.ApplicationUser", null)
+                    b.HasOne("XSlipMvc.Client.Domain.Entities.Identity.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -313,7 +243,7 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations.Identity
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("XSlipMvc.Client.Infrastructure.Identity.ApplicationUser", null)
+                    b.HasOne("XSlipMvc.Client.Domain.Entities.Identity.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -328,7 +258,7 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations.Identity
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("XSlipMvc.Client.Infrastructure.Identity.ApplicationUser", null)
+                    b.HasOne("XSlipMvc.Client.Domain.Entities.Identity.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -337,47 +267,11 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations.Identity
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("XSlipMvc.Client.Infrastructure.Identity.ApplicationUser", null)
+                    b.HasOne("XSlipMvc.Client.Domain.Entities.Identity.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Bank.BankAccount", b =>
-                {
-                    b.HasOne("XSlipMvc.Client.Domain.Entities.Bank.Bank", null)
-                        .WithMany("BankAccounts")
-                        .HasForeignKey("BankId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Bank.BankOwner", b =>
-                {
-                    b.HasOne("XSlipMvc.Client.Infrastructure.Identity.ApplicationUser", null)
-                        .WithMany("BankOwners")
-                        .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("XSlipMvc.Client.Domain.Entities.Bank.Bank", "Bank")
-                        .WithMany()
-                        .HasForeignKey("BankId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Bank");
-                });
-
-            modelBuilder.Entity("XSlipMvc.Client.Domain.Entities.Bank.Bank", b =>
-                {
-                    b.Navigation("BankAccounts");
-                });
-
-            modelBuilder.Entity("XSlipMvc.Client.Infrastructure.Identity.ApplicationUser", b =>
-                {
-                    b.Navigation("BankOwners");
                 });
 #pragma warning restore 612, 618
         }

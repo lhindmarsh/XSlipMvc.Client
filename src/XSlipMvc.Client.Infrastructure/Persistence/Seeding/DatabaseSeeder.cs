@@ -3,9 +3,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-using XSlipMvc.Client.Domain.Entities.Bank;
-using XSlipMvc.Client.Domain.Entities.Expense;
-using XSlipMvc.Client.Infrastructure.Identity;
+using XSlipMvc.Client.Domain.Entities.Banks;
+using XSlipMvc.Client.Domain.Entities.Expenses;
+using XSlipMvc.Client.Domain.Entities.Identity;
 using XSlipMvc.Client.Infrastructure.Persistence.Context;
 
 namespace XSlipMvc.Client.Infrastructure.Persistence.Seeding

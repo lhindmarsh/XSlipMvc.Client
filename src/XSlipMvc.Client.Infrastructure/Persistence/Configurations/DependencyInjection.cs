@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 using XSlipMvc.Client.Application.Interfaces;
 using XSlipMvc.Client.Application.Services;
-using XSlipMvc.Client.Infrastructure.Identity;
+using XSlipMvc.Client.Domain.Entities.Identity;
 using XSlipMvc.Client.Infrastructure.Persistence.Context;
 using XSlipMvc.Client.Infrastructure.Persistence.Repositories;
 using XSlipMvc.Client.Infrastructure.Persistence.Seeding;

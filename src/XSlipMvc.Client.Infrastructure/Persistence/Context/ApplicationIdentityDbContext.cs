@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-using XSlipMvc.Client.Infrastructure.Identity;
+using XSlipMvc.Client.Domain.Entities.Identity;
 
 namespace XSlipMvc.Client.Infrastructure.Persistence.Context
 {
@@ -11,13 +11,11 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationIdentityDbContext).Assembly);
+            //set up all Identity base tables
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<ApplicationUser>()
-                .HasMany(u => u.BankOwners)
-                .WithOne()
-                .HasForeignKey(bo => bo.ApplicationUserId);
+                .Ignore(u => u.Banks);
         }
     }
 }

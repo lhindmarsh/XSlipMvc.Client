@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations.XSlip
 {
     /// <inheritdoc />
-    public partial class InitialXSlip : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -60,6 +60,30 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations.XSlip
                 });
 
             migrationBuilder.CreateTable(
+                name: "BankOwners",
+                columns: table => new
+                {
+                    BanksId = table.Column<int>(type: "int", nullable: false),
+                    OwnersId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BankOwners", x => new { x.BanksId, x.OwnersId });
+                    table.ForeignKey(
+                        name: "FK_BankOwners_AspNetUsers_OwnersId",
+                        column: x => x.OwnersId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BankOwners_Banks_BanksId",
+                        column: x => x.BanksId,
+                        principalTable: "Banks",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Expenses",
                 columns: table => new
                 {
@@ -93,6 +117,11 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations.XSlip
                 column: "BankId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_BankOwners_OwnersId",
+                table: "BankOwners",
+                column: "OwnersId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Banks_Name",
                 table: "Banks",
                 column: "Name",
@@ -115,6 +144,9 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations.XSlip
         {
             migrationBuilder.DropTable(
                 name: "BankAccounts");
+
+            migrationBuilder.DropTable(
+                name: "BankOwners");
 
             migrationBuilder.DropTable(
                 name: "Expenses");

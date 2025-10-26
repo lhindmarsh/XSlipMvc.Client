@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace XSlipMvc.Client.Infrastructure.Persistence.Migrations.Identity
 {
     /// <inheritdoc />
-    public partial class InitialApplicationUser : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

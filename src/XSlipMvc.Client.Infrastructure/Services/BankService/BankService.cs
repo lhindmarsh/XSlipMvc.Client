@@ -1,7 +1,7 @@
 ﻿using XSlipMvc.Client.Application.Common;
 using XSlipMvc.Client.Application.Interfaces;
 using XSlipMvc.Client.Application.Services;
-using XSlipMvc.Client.Domain.Entities.Bank;
+using XSlipMvc.Client.Domain.Entities.Banks;
 
 namespace XSlipMvc.Client.Infrastructure.Services.BankService
 {

@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 
-using XSlipMvc.Client.Infrastructure.Identity;
+using XSlipMvc.Client.Domain.Entities.Identity;
 
 namespace XSlipMvc.Client.Web.Areas.Identity.Pages.Account
 {

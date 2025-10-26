@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 using XSlipMvc.Client.Application.Services;
-using XSlipMvc.Client.Domain.Entities.Expense;
+using XSlipMvc.Client.Domain.Entities.Expenses;
 using XSlipMvc.Client.Web.ViewModels.Expense;
 
 namespace XSlipMvc.Client.Web.Controllers
