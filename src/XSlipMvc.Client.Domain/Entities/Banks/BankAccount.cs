@@ -11,5 +11,16 @@
         public string? Nickname { get; set; }
 
         public int BankId { get; set; }
+
+        public BankAccount() { }
+
+        public BankAccount(int id, string accountNumber, string sortCode, string? nickname, int bankId)
+        {
+            Id = id;
+            AccountNumber = accountNumber;
+            SortCode = sortCode;
+            Nickname = nickname;
+            BankId = bankId;
+        }
     }
 }

@@ -63,8 +63,6 @@ namespace XSlipMvc.Client.Infrastructure.Persistence.Context
                 .Property(b => b.Name)
                 .HasColumnType("nvarchar(100)");
 
-            //BankOwner
-
             //BankAccount
             modelBuilder.Entity<BankAccount>()
                 .HasIndex(ba => ba.AccountNumber)

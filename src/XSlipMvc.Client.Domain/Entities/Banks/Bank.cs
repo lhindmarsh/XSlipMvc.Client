@@ -10,6 +10,15 @@ namespace XSlipMvc.Client.Domain.Entities.Banks
 
         public ICollection<BankAccount> BankAccounts { get; set; } = new List<BankAccount>();
 
-        public virtual ICollection<ApplicationUser> Owners{ get; set; } = new List<ApplicationUser>();
+        public virtual ICollection<ApplicationUser> Owners { get; set; } = new List<ApplicationUser>();
+
+        public Bank() { }
+
+        public Bank(int id, string name, ICollection<BankAccount> bankAccounts)
+        {
+            Id = id;
+            Name = name;
+            BankAccounts = bankAccounts;
+        }
     }
 }
